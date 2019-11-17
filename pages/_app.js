@@ -30,13 +30,13 @@ export default withRedux(initStore)(
             return (
                 <Container>
                     <DefaultSeo
-                        title="Novine - React Next eCommerce Templates"
-                        description="Novine - React Next eCommerce Templates. This has been built with React, Next.js, Express.js, and ES6+"
+                        title="YankeeSim - React Next eCommerce Templates"
+                        description="YankeeSim - React Next eCommerce Templates. This has been built with React, Next.js, Express.js, and ES6+"
                         openGraph={{
                             type: 'website',
                             locale: 'en_IE',
                             url: 'https://nextland-react.envytheme.com/',
-                            site_name: 'Novine - React Next eCommerce Templates',
+                            site_name: 'YankeeSim - React Next eCommerce Templates',
                         }}
                     />
                     <Provider store={store}>
