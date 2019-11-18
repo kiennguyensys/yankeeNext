@@ -74,7 +74,7 @@ class BestSeller extends Component {
               }
             }
         `;
-        const url = "hhttp://yankeesim-admin.herokuapp.com/admin/api";
+        const url = "https://yankeesim-admin.herokuapp.com/admin/api";
         const opts = {
           method: "POST",
           headers: { "Content-Type": "application/json" },
