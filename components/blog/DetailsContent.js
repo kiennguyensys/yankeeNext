@@ -15,10 +15,11 @@ export class DetailsContent extends Component {
                 body,
                 posted,
                 author {name},
+                tags { name },
                 image,
                 brief_description
               }
-              allComments(where: {originalPost: {slug: "`+ this.props.slug + `"}}) {
+              allPostComments(where: {originalPost: {slug: "`+ this.props.slug + `"}}) {
                 id,
                 body,
                 author {name},
@@ -37,7 +38,7 @@ export class DetailsContent extends Component {
           .then(res => res.json())
             .then(result => {
                 console.log(result)
-                this.setState({blog: result.data.allPosts[0], comments: result.data.allComments})
+                this.setState({blog: result.data.allPosts[0], comments: result.data.allPostComments})
             })
           .catch(console.error);
         
@@ -71,7 +72,7 @@ export class DetailsContent extends Component {
                                     <ul className="category">
                                         <li><span>Tags:</span></li>
                                         {
-                                            comments.tags && comments.tags.map((tag, key) => (
+                                            blog.tags && blog.tags.map((tag, key) => (
                                                 <li key={key}><a href="#">{tag.name}</a></li> 
                                             ))
                                         }

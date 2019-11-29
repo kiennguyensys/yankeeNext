@@ -45,7 +45,8 @@ class RelatedProducts extends Component {
         modalImage: '',
         products:[],
         price: 0,
-        idd: null
+        idd: null,
+        modalProduct: {}
     };
 
     handleAddToCart = (id) => {
@@ -108,11 +109,9 @@ class RelatedProducts extends Component {
         this.setState({ modalOpen: false });
     }
 
-    handleModalData = (image, price, id) => {
+    handleModalData = (product) => {
         this.setState({ 
-            modalImage: image, 
-            price: price,
-            idd: id
+            modalProduct: product, 
         });
     }
 
@@ -126,7 +125,7 @@ class RelatedProducts extends Component {
                 <div class="related-products-area">
                     <div class="container">
                         <div class="section-title">
-                            <h2><span class="dot"></span> Related Products</h2>
+                            <h2>Related Products</h2>
                         </div>
 
                         <div class="row">
@@ -138,7 +137,7 @@ class RelatedProducts extends Component {
                                     <div className="col-lg-12 col-md-12" key={idx}>
                                         <div className="single-product-box">
                                             <div className="product-image">
-                                                <Link href="/product-details">
+                                                <Link href={"/product-details?id=" + data.id}>
                                                     <a>
                                                         <img src={data.image} alt="image" />
                                                         <img src={data.imageHover} alt="image" />
@@ -154,7 +153,7 @@ class RelatedProducts extends Component {
                                                                 onClick={e => {
                                                                         e.preventDefault(); 
                                                                         this.openModal();
-                                                                        this.handleModalData(data.quickView,data.price,data.id)
+                                                                        this.handleModalData(data)
                                                                     }
                                                                 }
                                                             >
@@ -219,8 +218,7 @@ class RelatedProducts extends Component {
                 { modalOpen ? <QuickView 
                     closeModal={this.closeModal} 
                     idd={this.state.idd}
-                    image={this.state.modalImage} 
-                    price={this.state.price}
+                    product={this.state.modalProduct}
                 /> : '' }
             </React.Fragment>
         );

@@ -61,107 +61,19 @@ class DetailsTab extends Component {
                             <div className="tab_content">
                                 <div id="tab1" className="tabs_item">
                                     <div className="products-details-tab-content">
-                                        <p>{product.description}</p>
+                                        <span dangerouslySetInnerHTML={{__html: product.detailDescription}} />
 
-                                        <div className="row">
-                                            <div className="col-lg-6 col-md-6">
-                                                <ul>
-                                                    <li>Fabric 1: 100% Polyester</li>
-                                                    <li>Fabric 2: 100% Polyester,Lining: 100% Polyester</li>
-                                                    <li>Fabric 3: 75% Polyester, 20% Viscose, 5% Elastane</li>
-                                                </ul>
-                                            </div>
 
-                                            <div className="col-lg-6 col-md-6">
-                                                <ol>
-                                                    <li>Fabric 1: 75% Polyester, 20% Viscose, 5% Elastane</li>
-                                                    <li>Fabric 2: 100% Polyester,Lining: 100% Polyester</li>
-                                                    <li>Fabric 3: 100% Polyester</li>
-                                                </ol>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
 
                                 <div id="tab2" className="tabs_item">
                                     <div className="products-details-tab-content">
-                                        <div className="table-responsive">
-                                            <table className="table table-striped">
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Color:</td>
-                                                        <td>Blue, Purple, White</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Size:</td>
-                                                        <td>20, 24</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Material:</td>
-                                                        <td>100% Polyester</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Height:</td>
-                                                        <td>180 cm - 5' 11”</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Bust</td>
-                                                        <td>83 cm - 32”</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Waist</td>
-                                                        <td>57 cm - 22”</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Hips</td>
-                                                        <td>88 cm - 35</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Shipping</td>
-                                                        <td>Free</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                        <span dangerouslySetInnerHTML={{__html: product.additionalInfo}} />
                                     </div>
                                 </div>
 
-                                <div id="tab3" className="tabs_item">
-                                    <div className="products-details-tab-content">
-                                        <div className="table-responsive">
-                                            <table className="table table-bordered">
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Shipping</td>
-                                                        <td>This item Ship to USA</td>
-                                                    </tr>
 
-                                                    <tr>
-                                                        <td>Delivery</td>
-                                                        <td>
-                                                            Estimated between Wednesday 07/31/2020 and Monday 08/05/2020 <br />
-                                                            Will usually ship within 1 bussiness day.
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div id="tab4" className="tabs_item">
-                                    <div className="products-details-tab-content">
-                                        <p>Here are 5 more great reasons to buy from us:</p>
-
-                                        <ol>
-                                            <li>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</li>
-                                            <li> Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</li>
-                                            <li>when an unknown printer took a galley of type and scrambled it to make a type specimen book.</li>
-                                            <li>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</li>
-                                            <li>when an unknown printer took a galley of type and scrambled it to make a type specimen book.</li>
-                                        </ol>
-                                    </div>
-                                </div>
 
                                 <div id="tab5" className="tabs_item">
                                     <div className="products-details-tab-content">
@@ -176,56 +88,34 @@ class DetailsTab extends Component {
                                                     <i className="fas fa-star"></i>
                                                     <i className="far fa-star"></i>
                                                 </div>
-                                                <p>Based on 3 reviews</p>
+                                                <p>Based on {this.props.reviews.length} reviews</p>
 
                                                 <a href="#" className="btn btn-light">Write a Review</a>
                                             </div>
 
                                             <div className="review-comments">
-                                                <div className="review-item">
-                                                    <div className="rating">
-                                                        <i className="fas fa-star"></i>
-                                                        <i className="fas fa-star"></i>
-                                                        <i className="fas fa-star"></i>
-                                                        <i className="fas fa-star"></i>
-                                                        <i className="far fa-star"></i>
-                                                    </div>
-                                                    <h3>Good</h3>
-                                                    <span><strong>Admin</strong> on <strong>Sep 21, 2019</strong></span>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
 
-                                                    <a href="#" className="review-report-link">Report as Inappropriate</a>
-                                                </div>
+                                                {
+                                                    this.props.reviews.map((review, key) => (
+                                                        <div key={key} className="review-item">
+                                                            <div className="rating">
+                                                                <i className="fas fa-star"></i>
+                                                                <i className="fas fa-star"></i>
+                                                                <i className="fas fa-star"></i>
+                                                                <i className="fas fa-star"></i>
+                                                                <i className="far fa-star"></i>
+                                                            </div>
+                                                            <h3>Good</h3>
+                                                            <span><strong>{review.author.name}</strong> on <strong>{review.posted.split('T')[0]}</strong></span>
+                                                            <p>{review.body}</p>
 
-                                                <div className="review-item">
-                                                    <div className="rating">
-                                                        <i className="fas fa-star"></i>
-                                                        <i className="fas fa-star"></i>
-                                                        <i className="fas fa-star"></i>
-                                                        <i className="fas fa-star"></i>
-                                                        <i className="far fa-star"></i>
-                                                    </div>
-                                                    <h3>Good</h3>
-                                                    <span><strong>Admin</strong> on <strong>Sep 21, 2019</strong></span>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+                                                            <a href="#" className="review-report-link">Report as Inappropriate</a>
+                                                        </div>
 
-                                                    <a href="#" className="review-report-link">Report as Inappropriate</a>
-                                                </div>
+                                                    ))
+                                                }
 
-                                                <div className="review-item">
-                                                    <div className="rating">
-                                                        <i className="fas fa-star"></i>
-                                                        <i className="fas fa-star"></i>
-                                                        <i className="fas fa-star"></i>
-                                                        <i className="fas fa-star"></i>
-                                                        <i className="far fa-star"></i>
-                                                    </div>
-                                                    <h3>Good</h3>
-                                                    <span><strong>Admin</strong> on <strong>Sep 21, 2019</strong></span>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.</p>
 
-                                                    <a href="#" className="review-report-link">Report as Inappropriate</a>
-                                                </div>
                                             </div>
 
                                             <div className="review-form">

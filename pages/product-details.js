@@ -14,7 +14,7 @@ class Index extends Component {
             return { query, params }
     }
 
-    state = { product : {} }
+    state = { product : {}, reviews: [] }
 
     componentDidMount () {
         const query = `
@@ -26,7 +26,16 @@ class Index extends Component {
                 image,
                 imageHover,
                 description,
+                detailDescription,
+                additionalInfo,
                 categories {slug}
+              },
+              allProductReviews(where: {originalProduct: {id: "`+ this.props.query.id + `"}}) {
+                id,
+                body,
+                author {name},
+                ratingStarsNumber,
+                posted
               }
             }
         `;
@@ -41,7 +50,7 @@ class Index extends Component {
           .then(res => res.json())
             .then(result => {
                 console.log(result)
-                this.setState({product: result.data.Product})
+                this.setState({product: result.data.Product, reviews: result.data.allProductReviews})
             })
           .catch(console.error);
         
@@ -49,7 +58,7 @@ class Index extends Component {
 
 
     render() {
-        const { product } = this.state;
+        const { product, reviews } = this.state;
         return (
             <React.Fragment>
                 <Navbar />
@@ -59,8 +68,8 @@ class Index extends Component {
                     <div className="container">
                         <div className="row">
                             <ProductImage src={product.image}/>
-                            <ProductContent product={product}/>
-                            <DetailsTab product={product}/>
+                            <ProductContent product={product} reviews={reviews}/>
+                            <DetailsTab product={product} reviews={reviews}/>
                         </div>
                     </div>
 

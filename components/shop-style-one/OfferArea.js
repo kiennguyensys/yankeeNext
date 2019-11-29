@@ -15,9 +15,6 @@ class OfferArea extends Component {
 
                                     <div className="circle">1tr</div>
 
-
-
-
                                     <ul>
                                         <li>
                                             <a>
@@ -69,6 +66,7 @@ class OfferArea extends Component {
                                         </li>
 
                                     </ul>
+                                    <br />
                                     <Link href="#">
                                         <a className="btn btn-primary">MUA NGAY</a>
                                     </Link>
@@ -132,12 +130,13 @@ class OfferArea extends Component {
                                         </li>
                                         <li>
                                             <Link href="#">
-                                                <a>Bestseller</a>
+                                                <a>Best seller</a>
                                             </Link>
 
                                         </li>
 
                                     </ul>
+                                    <br />
                                     <Link href="#">
                                         <a className="btn btn-primary">MUA NGAY</a>
                                     </Link>
@@ -207,6 +206,7 @@ class OfferArea extends Component {
                                         </li>
 
                                     </ul>
+                                    <br />
                                     <Link href="#">
                                         <a className="btn btn-primary">MUA NGAY</a>
                                     </Link>

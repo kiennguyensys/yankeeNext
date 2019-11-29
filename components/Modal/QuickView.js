@@ -84,7 +84,6 @@ class QuickView extends Component {
                                             <i className="fas fa-star"></i>
                                             <i className="fas fa-star-half-alt"></i>
                                         </div>
-                                        <a href="#" className="rating-count">3 reviews</a>
                                     </div>
 
                                     <ul className="product-info">

@@ -92,7 +92,7 @@ class ProductContent extends Component {
                                 <i className="fas fa-star-half-alt"></i>
                             </div>
                             <Link href="#">
-                                <a className="rating-count">3 reviews</a>
+                                <a className="rating-count">{this.props.reviews.length} reviews</a>
                             </Link>
                         </div>
 
