@@ -27,6 +27,7 @@ class DetailsTab extends Component {
     }
 
     render() {
+        const { product } = this.props
         return (
             <div className="col-lg-12 col-md-12">
                 <div className="tab products-details-tab">
@@ -38,31 +39,19 @@ class DetailsTab extends Component {
                                     className="current"
                                 >
                                     <a href="#">
-                                        <div className="dot"></div> Description
+                                         Description
                                     </a>
                                 </li>
                                 
                                 <li onClick={(e) => {e.preventDefault(); this.openTabSection(e, 'tab2')}}>
                                     <a href="#">
-                                        <div className="dot"></div> Additional information
-                                    </a>
-                                </li>
-
-                                <li onClick={(e) => {e.preventDefault(); this.openTabSection(e, 'tab3')}}>
-                                    <a href="#">
-                                        <div className="dot"></div> Shipping
-                                    </a>
-                                </li>
-                                
-                                <li onClick={(e) => {e.preventDefault(); this.openTabSection(e, 'tab4')}}>
-                                    <a href="#">
-                                        <div className="dot"></div> Why Buy From Us
+                                        Additional information
                                     </a>
                                 </li>
 
                                 <li onClick={(e) => {e.preventDefault(); this.openTabSection(e, 'tab5')}}>
                                     <a href="#">
-                                        <div className="dot"></div> Reviews
+                                         Reviews
                                     </a>
                                 </li>
                             </ul>
@@ -72,7 +61,7 @@ class DetailsTab extends Component {
                             <div className="tab_content">
                                 <div id="tab1" className="tabs_item">
                                     <div className="products-details-tab-content">
-                                        <p>Design inspiration lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum.  Aliquam erat volutpat. Sed quis velit. Nulla facilisi. Nulla libero. Vivamus pharetra posuere sapien. Nam consectetuer. Sed aliquam, nunc eget euismod ullamcorper, lectus nunc ullamcorper orci, fermentum bibendum enim nibh eget ipsum. Nam consectetuer. Sed aliquam, nunc eget euismod ullamcorper, lectus nunc ullamcorper orci, fermentum bibendum enim nibh eget ipsum. Nulla libero. Vivamus pharetra posuere sapien.</p>
+                                        <p>{product.description}</p>
 
                                         <div className="row">
                                             <div className="col-lg-6 col-md-6">

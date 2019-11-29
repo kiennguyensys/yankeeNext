@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { addToCart } from '../../store/actions/cartActions';
 import Link from 'next/link';
@@ -6,14 +6,22 @@ import ReactTooltip from 'react-tooltip'
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import QuickView from '../Modal/QuickView';
 
-class ProductsCard extends Component {
+class ProductsCard extends PureComponent {
     state = {
         modalOpen: false,
         modalImage: '',
         price: 0,
         idd: null,
-        products: []
+        products: [],
+        modalProduct: {}
     };
+
+    componentDidUpdate(prevProps) {
+      // Typical usage (don't forget to compare props):
+      if (this.props.category !== prevProps.category) {
+        this.fetchData(this.props.category);
+      }
+    }
 
     componentDidMount () {
         const query = `
@@ -41,6 +49,35 @@ class ProductsCard extends Component {
             })
           .catch(console.error);
     }
+
+    fetchData = (category) => {
+        const query = `
+            query {
+              allProducts(where: {categories_every: {slug: "`+ category.toString() +`"}}) {
+                id,
+                title,
+                price,
+                image,
+                imageHover
+              }
+            }
+        `;
+
+        const url = "https://yankeesim-admin.herokuapp.com/admin/api";
+        const opts = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query })
+        };
+        fetch(url, opts)
+          .then(res => res.json())
+            .then(result => {
+                console.log(result)
+                this.setState({products: result.data.allProducts})
+            })
+          .catch(console.error);
+    }
+
     handleAddToCart = (id) => {
         this.props.addToCart(id); 
 
@@ -61,11 +98,9 @@ class ProductsCard extends Component {
         this.setState({ modalOpen: false });
     }
 
-    handleModalData = (image, price, id) => {
+    handleModalData = (product) => {
         this.setState({ 
-            modalImage: image, 
-            price: price,
-            idd: id
+            modalProduct: product 
         });
     }
 
@@ -80,10 +115,12 @@ class ProductsCard extends Component {
                     <div className="col-lg-4 col-sm-6 col-md-4 col-6 products-col-item" key={idx}>
                         <div className="single-product-box">
                             <div className="product-image">
-                                <a href="#">
-                                    <img style={{width: 262, height: 320}} src={data.image} alt="image" />
-                                    <img style={{width: 262, height: 320}} src={data.imageHover} alt="image" />
-                                </a>
+                                <Link href={"/product-details?id=" + data.id}>
+                                    <a>
+                                        <img src={data.image} alt="image" />
+                                        <img src={data.imageHover} alt="image" />
+                                    </a>
+                                </Link>
 
                                 <ul>
                                     <li>
@@ -94,7 +131,7 @@ class ProductsCard extends Component {
                                                 onClick={e => {
                                                         e.preventDefault(); 
                                                         this.openModal();
-                                                        this.handleModalData(data.quickView,data.price,data.id)
+                                                        this.handleModalData(data)
                                                     }
                                                 }
                                             >
@@ -151,8 +188,7 @@ class ProductsCard extends Component {
                 { modalOpen ? <QuickView 
                     closeModal={this.closeModal} 
                     idd={this.state.idd}
-                    image={this.state.modalImage} 
-                    price={this.state.price}
+                    product={this.state.modalProduct} 
                 /> : '' }
             </React.Fragment>
         );

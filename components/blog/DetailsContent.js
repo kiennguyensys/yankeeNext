@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 export class DetailsContent extends Component {
 
-    state = {blog: {}}
+    state = {blog: {}, comments: []}
 
     componentDidMount () {
 
@@ -14,8 +14,15 @@ export class DetailsContent extends Component {
                 slug,
                 body,
                 posted,
+                author {name},
                 image,
                 brief_description
+              }
+              allComments(where: {originalPost: {slug: "`+ this.props.slug + `"}}) {
+                id,
+                body,
+                author {name},
+                posted
               }
             }
         `;
@@ -29,7 +36,8 @@ export class DetailsContent extends Component {
         fetch(url, opts)
           .then(res => res.json())
             .then(result => {
-                this.setState({blog: result.data.allPosts[0]})
+                console.log(result)
+                this.setState({blog: result.data.allPosts[0], comments: result.data.allComments})
             })
           .catch(console.error);
         
@@ -37,6 +45,8 @@ export class DetailsContent extends Component {
 
     render() {
         const { blog } = this.state
+        const { comments } = this.state
+        console.log(comments)
         return (
             <section className="blog-details-area ptb-60">
                 <div className="container">
@@ -49,9 +59,9 @@ export class DetailsContent extends Component {
 
                                 <div className="article-content">
                                     <ul className="entry-meta">
-                                        <li><i className="far fa-user"></i> <a href="#">Author</a></li>
-                                        <li><i className="far fa-calendar-alt"></i> April 08, 2019</li>
-                                        <li><i className="far fa-comment-dots"></i> 2 Comment</li>
+                                        <li><i className="far fa-user"></i> <a href="#">{blog.author && blog.author.name}</a></li>
+                                        <li><i className="far fa-calendar-alt"></i>{blog.posted && blog.posted.split('T')[0] || 'undefined'}</li>
+                                        <li><i className="far fa-comment-dots"></i> {comments.length || '0'} Comment</li>
                                     </ul>
 
                                     <h3>{blog.title}</h3>
@@ -60,40 +70,46 @@ export class DetailsContent extends Component {
 
                                     <ul className="category">
                                         <li><span>Tags:</span></li>
-                                        <li><a href="#">Sim</a></li>
-                                        <li><a href="#">America</a></li>
+                                        {
+                                            comments.tags && comments.tags.map((tag, key) => (
+                                                <li key={key}><a href="#">{tag.name}</a></li> 
+                                            ))
+                                        }
                                     </ul>
                                 </div>
                             </div>
 
                             <div className="comments-area">
-                                <h3 className="comments-title">2 Comments:</h3>
+                                <h3 className="comments-title">{comments.length} Comments:</h3>
 
                                 <ol className="comment-list">
                                     <li className="comment">
-                                        <article className="comment-body">
-                                            <footer className="comment-meta">
-                                                <div className="comment-author vcard">
-                                                    <img src={require("../../images/author1.jpg")} className="avatar" alt="image" />
-                                                    <b className="fn">Novine</b>
-                                                    <span className="says">says:</span>
+                                        { comments.map(comment => (
+                                             <article className="comment-body">
+                                                <footer className="comment-meta">
+                                                    <div className="comment-author vcard">
+                                                        <img src={require("../../images/author1.jpg")} className="avatar" alt="image" />
+                                                        <b className="fn">{comment.author.name}</b>
+                                                        <span className="says">says:</span>
+                                                    </div>
+
+                                                    <div className="comment-metadata">
+                                                        <a href="#">
+                                                            <time>{comment.posted.split('T')[0]}</time>
+                                                        </a>
+                                                    </div>
+                                                </footer>
+
+                                                <div className="comment-content">
+                                                    <p>{comment.body}</p>
                                                 </div>
 
-                                                <div className="comment-metadata">
-                                                    <a href="#">
-                                                        <time>April 24, 2019 at 10:59 am</time>
-                                                    </a>
+                                                <div className="reply">
+                                                    <a href="#" className="comment-reply-link">Reply</a>
                                                 </div>
-                                            </footer>
-
-                                            <div className="comment-content">
-                                                <p>Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                                            </div>
-
-                                            <div className="reply">
-                                                <a href="#" className="comment-reply-link">Reply</a>
-                                            </div>
-                                        </article>
+                                            </article>
+                   
+                                        ))} 
 
                                         <ol className="children">
                                             <li className="comment">
@@ -101,7 +117,7 @@ export class DetailsContent extends Component {
                                                     <footer className="comment-meta">
                                                         <div className="comment-author vcard">
                                                             <img src={require("../../images/author2.jpg")} className="avatar" alt="image" />
-                                                            <b className="fn">Novine</b>
+                                                            <b className="fn">Admin</b>
                                                             <span className="says">says:</span>
                                                         </div>
             
@@ -113,7 +129,7 @@ export class DetailsContent extends Component {
                                                     </footer>
             
                                                     <div className="comment-content">
-                                                        <p>Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                                                        <p>Ok</p>
                                                     </div>
             
                                                     <div className="reply">
@@ -122,89 +138,9 @@ export class DetailsContent extends Component {
                                                 </article>
                                             </li>
 
-                                            <ol className="children">
-                                                <li className="comment">
-                                                    <article className="comment-body">
-                                                        <footer className="comment-meta">
-                                                            <div className="comment-author vcard">
-                                                                <img src={require("../../images/author3.jpg")} className="avatar" alt="image" />
-                                                                <b className="fn">Comero</b>
-                                                                <span className="says">says:</span>
-                                                            </div>
-                
-                                                            <div className="comment-metadata">
-                                                                <a href="#">
-                                                                    <time>April 24, 2019 at 10:59 am</time>
-                                                                </a>
-                                                            </div>
-                                                        </footer>
-                
-                                                        <div className="comment-content">
-                                                            <p>Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                                                        </div>
-                
-                                                        <div className="reply">
-                                                            <a href="#" className="comment-reply-link">Reply</a>
-                                                        </div>
-                                                    </article>
-
-                                                    <ol className="children">
-                                                        <li className="comment">
-                                                            <article className="comment-body">
-                                                                <footer className="comment-meta">
-                                                                    <div className="comment-author vcard">
-                                                                        <img src={require("../../images/author4.jpg")} className="avatar" alt="image" />
-                                                                        <b className="fn">Comero</b>
-                                                                        <span className="says">says:</span>
-                                                                    </div>
-                        
-                                                                    <div className="comment-metadata">
-                                                                        <a href="#">
-                                                                            <time>April 24, 2019 at 10:59 am</time>
-                                                                        </a>
-                                                                    </div>
-                                                                </footer>
-                        
-                                                                <div className="comment-content">
-                                                                    <p>Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                                                                </div>
-                        
-                                                                <div className="reply">
-                                                                    <a href="#" className="comment-reply-link">Reply</a>
-                                                                </div>
-                                                            </article>
-                                                        </li>
-                                                    </ol>
-                                                </li>
-                                            </ol>
                                         </ol>
                                     </li>
 
-                                    <li className="comment">
-                                        <article className="comment-body">
-                                            <footer className="comment-meta">
-                                                <div className="comment-author vcard">
-                                                    <img src={require("../../images/author2.jpg")} className="avatar" alt="image" />
-                                                    <b className="fn">Comero</b>
-                                                    <span className="says">says:</span>
-                                                </div>
-
-                                                <div className="comment-metadata">
-                                                    <a href="#">
-                                                        <time>April 24, 2019 at 10:59 am</time>
-                                                    </a>
-                                                </div>
-                                            </footer>
-
-                                            <div className="comment-content">
-                                                <p>Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                                            </div>
-
-                                            <div className="reply">
-                                                <a href="#" className="comment-reply-link">Reply</a>
-                                            </div>
-                                        </article>
-                                    </li>
                                 </ol>
 
                                 <div className="comment-respond">

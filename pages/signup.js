@@ -15,7 +15,7 @@ class Index extends Component {
                     <div className="container">
                         <div className="signup-content">
                             <div className="section-title">
-                                <h2><span className="dot"></span> Create an Account</h2>
+                                <h2>Create an Account</h2>
                             </div>
 
                             <form className="signup-form">

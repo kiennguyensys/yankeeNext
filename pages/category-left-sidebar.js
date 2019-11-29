@@ -9,6 +9,11 @@ import ProductsCard from '../components/products/ProductsCard';
 
 class Index extends Component {
 
+    static async getInitialProps({ req, query, params }) {
+
+            return { query, params }
+    }
+
     state = {
         gridClass: ''
     }
@@ -21,15 +26,17 @@ class Index extends Component {
 
     render() {
         let { gridClass } = this.state;
+        let category = this.props.query && this.props.query.category;
+
         return (
             <React.Fragment>
                 <Navbar />
-                <Breadcrumb title="Women's" />
+                <Breadcrumb title="Sim" />
 
                 <section className="products-collections-area ptb-60">
                     <div className="container">
                         <div className="section-title">
-                            <h2><span className="dot"></span> Sim</h2>
+                            <h2>Sims</h2>
                         </div>
 
                         <div className="row">
@@ -39,7 +46,7 @@ class Index extends Component {
                                 <ProductsFilterOptions onClick={this.handleGrid} />
 
                                 <div id="products-filter" className={`products-collections-listing row ${gridClass}`}>
-                                    <ProductsCard /> 
+                                    <ProductsCard category={category}/> 
                                 </div>
                             </div>
                         </div>

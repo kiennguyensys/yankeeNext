@@ -19,9 +19,9 @@ class ProductImage extends Component {
       }
 
     renderSliderMainImages = () => {
-        return DEFAULT_PROPS.map(({id, image}) => {
+        return [this.props.src].map((image, key) => {
             return (
-                <div key={id}>
+                <div key={key}>
                     <div className="item">
                         <img src={image} alt="image" />
                     </div>

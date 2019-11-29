@@ -176,8 +176,8 @@ img {
 
 .btn-primary {
   color: #ffffff;
-  background-color: #222222;
-  border-color: #222222;
+  background-color: #3DB895;
+  border-color: #3DB895;
 }
 
 .btn-primary.disabled, .btn-primary:disabled {
@@ -560,6 +560,12 @@ Navbar Area CSS
   padding-bottom: 0;
 }
 
+.navbar-brand img {
+  height: 80px;
+  background-size: contain;
+}
+
+
 .comero-nav {
   background-color: #ffffff;
   padding-top: 3px;
@@ -614,6 +620,7 @@ Navbar Area CSS
 
 .comero-nav .navbar .navbar-nav .nav-item a i {
   font-size: 11px;
+  color: #3db895;
 }
 
 .comero-nav .navbar .navbar-nav .nav-item:hover a, .comero-nav .navbar .navbar-nav .nav-item:focus a, .comero-nav .navbar .navbar-nav .nav-item.active a {
@@ -877,6 +884,12 @@ Navbar Area CSS
   text-transform: uppercase;
   position: relative;
 }
+
+.comero-nav .others-option .option-item i {
+  color: #3DB895;
+  position: relative;
+}
+
 
 .comero-nav .others-option .option-item a::before {
   content: '';
@@ -1429,13 +1442,12 @@ Modal CSS
 Main Banner Area CSS
 =================================================*/
 .main-banner {
-  height: 600px;
+  height: 400px;
   position: relative;
   z-index: 1;
   background-color: #f1f1f1;
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
-  background-position: center center;
 }
 
 .main-banner.item-bg1 {
@@ -1589,6 +1601,87 @@ Main Banner Area CSS
   margin: 0 auto;
 }
 
+.feature-area {
+  position: relative;
+  z-index: 1;
+  background-color: #4C4C4C;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.feature-single {
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+  width: 100%;
+}
+
+.feature-single img {
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  border-radius: 2px;
+  position: relative;
+  object-fit: contain;
+  float: right;
+}
+
+.feature-single .feature-content {
+  position: relative;
+  display: block;
+}
+
+.feature-single .feature-content h1 {
+  color: #ffffff;
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.feature-single .feature-content p {
+  color: #BFBFBF;
+  font-size: 16px;
+  font-weight: 400;
+  margin-bottom: 6px;
+}
+
+.feature-single .feature-content ul {
+  list-style-type: circle;
+  color: #BFBFBF;
+  font-size: 16px;
+}
+
+.feature-single .feature-content button {
+  background-color: #FFFFFF;
+  border: none;
+  color: black;
+  padding: 14px 28px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 20px 20px;
+  cursor: pointer;
+}
+
+.feature-single .feature-content span {
+  display: block;
+  color: #ffffff;
+}
+
+.feature-single .category {
+  position: absolute;
+  left: 0;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  right: 0;
+  bottom: 25px;
+  border: 1px solid #ececec;
+  padding: 20px;
+  margin-left: 40px;
+  margin-right: 40px;
+}
+
 /*================================================
 About Area CSS
 =================================================*/
@@ -1669,10 +1762,18 @@ Offer Area CSS
   display: none;
 }
 
+.offer-area {
+  background-image: url(../../images/offer-bg.jpg);
+  opacity: 0.7;
+}
+
 .offer-box {
   overflow: hidden;
   position: relative;
   text-align: center;
+  margin: 10px;
+  background-color: #fff;
+  padding: 20px;
 }
 
 .offer-box::before {
@@ -1739,6 +1840,41 @@ Offer Area CSS
   -webkit-transition: 0.5s;
   transition: 0.5s;
 }
+
+.offer-box .circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  font-size: 30px;
+  color: #000;
+  line-height: 120px;
+  text-align: center;
+  background: #EAEAEA;
+  display: inline-block;
+  margin: 20px;
+}
+
+.offer-box ul {
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+}
+
+.offer-box ul li {
+  margin-bottom: 10px;
+}
+
+.offer-box ul li:last-child {
+  margin-bottom: 0;
+}
+
+.offer-box ul li a {
+  font-size: 13px;
+  color: #666666;
+  position: relative;
+  display: inline-block;
+}
+
 
 .offer-box .box-inner {
   position: absolute;
@@ -2918,6 +3054,7 @@ Facility Area CSS
 .facility-box .icon i {
   -webkit-transition: 0.5s;
   transition: 0.5s;
+  color: #3db895;
 }
 
 .facility-box h3 {

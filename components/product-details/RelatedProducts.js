@@ -43,6 +43,7 @@ class RelatedProducts extends Component {
         display: false,
         modalOpen: false,
         modalImage: '',
+        products:[],
         price: 0,
         idd: null
     };
@@ -58,6 +59,41 @@ class RelatedProducts extends Component {
             pauseOnHover: true,
             draggable: true
         });
+    }
+
+    fetchData = (category) => {
+        const query = `
+            query {
+              allProducts(where: {categories_every: {slug: "`+ category.toString() +`"}}) {
+                id,
+                title,
+                price,
+                image,
+                imageHover
+              }
+            }
+        `;
+
+        const url = "https://yankeesim-admin.herokuapp.com/admin/api";
+        const opts = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query })
+        };
+        fetch(url, opts)
+          .then(res => res.json())
+            .then(result => {
+                console.log(result)
+                this.setState({products: result.data.allProducts})
+            })
+          .catch(console.error);
+    }
+
+    componentDidUpdate(prevProps) {
+      // Typical usage (don't forget to compare props):
+      if (this.props.categories !== prevProps.categories) {
+        this.fetchData(this.props.categories[0].slug);
+      }
     }
 
     componentDidMount(){ 
@@ -81,7 +117,7 @@ class RelatedProducts extends Component {
     }
 
     render() {
-        let { products } = this.props;
+        let { products } = this.state;
         const { modalOpen } = this.state;
         return (
             <React.Fragment>
@@ -146,12 +182,12 @@ class RelatedProducts extends Component {
                                             <div className="product-content">
                                                 <h3>
                                                     <Link href="#">
-                                                        <a>Belted chino trousers polo</a>
+                                                        <a>{data.title}</a>
                                                     </Link>
                                                 </h3>
 
                                                 <div className="product-price">
-                                                    <span className="new-price">$191.00</span>
+                                                    <span className="new-price">${data.price}</span>
                                                 </div>
 
                                                 <div className="rating">

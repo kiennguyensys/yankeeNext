@@ -83,31 +83,6 @@ class MegaMenu extends Component {
                                                 Home <i className="fas fa-chevron-down"></i>
                                             </a>
                                         </Link>
-                                        <ul className="dropdown-menu">
-                                            <li className="nav-item">
-                                                <Link href="/">
-                                                    <a className="nav-link active">Home One</a>
-                                                </Link>
-                                            </li>
-
-                                            <li className="nav-item">
-                                                <Link href="/shop-style-two">
-                                                    <a className="nav-link">Home Two</a>
-                                                </Link>
-                                            </li>
-
-                                            <li className="nav-item">
-                                                <Link href="/shop-style-three">
-                                                    <a className="nav-link">Home Three</a>
-                                                </Link>
-                                            </li>
-
-                                            <li className="nav-item">
-                                                <Link href="/shop-style-four">
-                                                    <a className="nav-link">Home Four</a>
-                                                </Link>
-                                            </li>
-                                        </ul>
                                     </li>
                                     
                                     <li className="nav-item megamenu">
@@ -121,7 +96,6 @@ class MegaMenu extends Component {
                                                 <div className="container">
                                                     <div className="row">
                                                         <div className="col">
-                                                            <h6 className="submenu-title">Collection Layouts</h6>
 
                                                             <ul className="megamenu-submenu">
                                                                 <li>

@@ -71,15 +71,16 @@ class ProductContent extends Component {
 
     render() {
         const { sizeGuide, shipModal } = this.state;
+        const { product } = this.props;
         return (
             <React.Fragment>
                 <div className="col-lg-6 col-md-6">
                     <ToastContainer />
                     <div className="product-details-content">
-                        <h3>Belted chino trousers polo</h3>
+                        <h3>{product.title}</h3>
 
                         <div className="price">
-                            <span className="new-price">$191.00</span>
+                            <span className="new-price">${product.price}</span>
                         </div>
 
                         <div className="product-review">
@@ -95,49 +96,16 @@ class ProductContent extends Component {
                             </Link>
                         </div>
 
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et.</p>
+                        <p>{product.description}</p>
 
                         <ul className="product-info">
-                            <li><span>Vendor:</span> <a href="#">Lereve</a></li>
+
                             <li><span>Availability:</span> <a href="#">In stock (7 items)</a></li>
-                            <li><span>Product Type:</span> <a href="#">T-Shirt</a></li>
+
                         </ul>
 
-                        <div className="product-color-switch">
-                            <h4>Color:</h4>
-
-                            <ul>
-                                <li><a href="#" title="Black" className="color-black"></a></li>
-                                <li><a href="#" title="White" className="color-white"></a></li>
-                                <li className="active"><a href="#" title="Green" className="color-green"></a></li>
-                                <li><a href="#" title="Yellow Green" className="color-yellowgreen"></a></li>
-                                <li><a href="#" title="Teal" className="color-teal"></a></li>
-                            </ul>
-                        </div>
-
-                        <div className="product-size-wrapper">
-                            <h4>Size:</h4>
-
-                            <ul>
-                                <li><a href="#">XS</a></li>
-                                <li className="active"><a href="#">S</a></li>
-                                <li><a href="#">M</a></li>
-                                <li><a href="#">XL</a></li>
-                                <li><a href="#">XXL</a></li>
-                            </ul>
-                        </div>
 
                         <div className="product-info-btn">
-                            <Link href="#">
-                                <a
-                                    onClick={e => {
-                                        e.preventDefault(); 
-                                        this.openSizeGuide();
-                                    }}
-                                >
-                                    <i className="fas fa-crop"></i> Size guide
-                                </a>
-                            </Link>
                             <Link href="#">
                                 <a
                                     onClick={e => {
@@ -183,10 +151,6 @@ class ProductContent extends Component {
                             </button>
                         </div>
 
-                        <div className="wishlist-compare-btn">
-                            <a href="#" className="btn btn-light"><i className="far fa-heart"></i> Add to Wishlist</a>
-                            <a href="#" className="btn btn-light"><i className="fas fa-balance-scale"></i> Add to Compare</a>
-                        </div>
 
                         <div className="buy-checkbox-btn">
                             <div className="item">

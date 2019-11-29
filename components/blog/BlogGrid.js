@@ -30,8 +30,8 @@ export class BlogGrid extends Component {
                 this.setState({blogs: result.data.allPosts})
             })
           .catch(console.error);
-        
     }
+
     render() {
 
         const { blogs } = this.state
@@ -45,7 +45,7 @@ export class BlogGrid extends Component {
                             <div className="single-blog-post">
                                 <div className="blog-image">
                                     <Link href={"/blog-details?slug=" + data.slug}>
-                                        <a><img style={{width: 400, height: 300}} src={data.image} alt="image" /></a>
+                                        <a><img src={data.image} alt="image" /></a>
                                     </Link>
 
                                 </div>
@@ -61,12 +61,6 @@ export class BlogGrid extends Component {
 
                     ))
                 }
-
-
-
-
-
-
 
                     </div>
                 </div>

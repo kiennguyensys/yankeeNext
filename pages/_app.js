@@ -12,6 +12,8 @@ import withRedux from 'next-redux-wrapper';
 import { initStore } from '../store/reducers/cartReducer';
 import { DefaultSeo } from 'next-seo';
 import GoTop from '../components/Shared/GoTop';
+import ReactGA from 'react-ga';
+
 
 export default withRedux(initStore)(
     class MyApp extends App {
@@ -22,6 +24,12 @@ export default withRedux(initStore)(
                     ? await Component.getInitialProps(ctx)
                     : {}
             }
+        }
+
+        componentDidMount () {
+            ReactGA.initialize('UA-153601216-1');
+            // Send initial test view
+            ReactGA.pageview(window.location.pathname + window.location.search);
         }
 
         render () {

@@ -17,7 +17,7 @@ class Index extends Component {
                             <div className="col-lg-6 col-md-12">
                                 <div className="login-content">
                                     <div className="section-title">
-                                        <h2><span className="dot"></span> Login</h2>
+                                        <h2>Login</h2>
                                     </div>
 
                                     <form className="login-form">
@@ -43,7 +43,7 @@ class Index extends Component {
                             <div className="col-lg-6 col-md-12">
                                 <div className="new-customer-content">
                                     <div className="section-title">
-                                        <h2><span className="dot"></span> New Customer</h2>
+                                        <h2>New Customer</h2>
                                     </div>
 
                                     <span>Create a Account</span>

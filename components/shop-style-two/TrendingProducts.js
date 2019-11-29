@@ -45,7 +45,8 @@ class TrendingProducts extends Component {
         price: 0,
         idd: null,
         display: false,
-        products: []
+        products: [],
+        modalProduct: {}
     };
 
     handleAddToCart = (id) => {
@@ -65,7 +66,7 @@ class TrendingProducts extends Component {
         this.setState({ display: true }) 
         const query = `
             query {
-              allProducts(where: {id_not: 0}) {
+              allProducts(where: {categories_every: {slug: "`+ this.props.category.toString() +`"}}) {
                 id,
                 title,
                 price,
@@ -74,6 +75,7 @@ class TrendingProducts extends Component {
               }
             }
         `;
+
         const url = "https://yankeesim-admin.herokuapp.com/admin/api";
         const opts = {
           method: "POST",
@@ -97,11 +99,9 @@ class TrendingProducts extends Component {
         this.setState({ modalOpen: false });
     }
 
-    handleModalData = (image, price, id) => {
+    handleModalData = (product) => {
         this.setState({ 
-            modalImage: image, 
-            price: price,
-            idd: id
+            modalProduct: product, 
         });
     }
 
@@ -114,7 +114,7 @@ class TrendingProducts extends Component {
                 <ToastContainer transition={Slide} />
                 <div className="container">
                     <div className="section-title without-bg">
-                        <h2><span className="dot"></span> Trending Products</h2>
+                        <h2>{this.props.title}</h2>
                     </div>
 
                     <div className="row">
@@ -126,10 +126,10 @@ class TrendingProducts extends Component {
                             <div className="col-lg-12 col-md-12" key={idx}>
                                 <div className="single-product-box">
                                     <div className="product-image">
-                                        <Link href="/product-details">
+                                        <Link href={"/product-details?id=" + data.id}>
                                             <a>
-                                                <img style={{width: 262, height: 320}} src={data.image} alt="image" />
-                                                <img style={{width: 262, height: 320}} src={data.imageHover} alt="image" />
+                                                <img src={data.image} alt="image" />
+                                                <img src={data.imageHover} alt="image" />
                                             </a>
                                         </Link>
 
@@ -142,7 +142,7 @@ class TrendingProducts extends Component {
                                                         onClick={e => {
                                                                 e.preventDefault(); 
                                                                 this.openModal();
-                                                                this.handleModalData(data.quickView,data.price,data.id)
+                                                                this.handleModalData(data)
                                                             }
                                                         }
                                                     >
@@ -206,8 +206,7 @@ class TrendingProducts extends Component {
                 { modalOpen ? <QuickView 
                     closeModal={this.closeModal} 
                     idd={this.state.idd}
-                    image={this.state.modalImage} 
-                    price={this.state.price}
+                    product={this.state.modalProduct}
                 /> : '' }
             </section>
         );
