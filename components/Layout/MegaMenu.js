@@ -8,7 +8,9 @@ class MegaMenu extends Component {
     state = {
         display: false,
         searchForm: false,
-        collapsed: true
+        collapsed: true,
+        products: [],
+        categories: []
     };
 
     handleCart = () => {
@@ -43,14 +45,36 @@ class MegaMenu extends Component {
             }
         });
         window.scrollTo(0, 0);
+
+        const query = `
+            query {
+              allProductCategories(where: {id_not: 0}) {
+                id,
+                name,
+                slug,
+              }
+            }
+        `;
+        const url = "https://yankeesim-admin.herokuapp.com/admin/api";
+        const opts = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query })
+        };
+        fetch(url, opts)
+          .then(res => res.json())
+            .then(result => {
+                console.log(result)
+                this.setState({categories: result.data.allProductCategories})
+            })
+          .catch(console.error);
     }
 
     render() {
-        const { collapsed } = this.state;
+        const { collapsed, products, categories } = this.state;
         const classOne = collapsed ? 'collapse navbar-collapse' : 'collapse navbar-collapse show';
         const classTwo = collapsed ? 'navbar-toggler navbar-toggler-right collapsed' : 'navbar-toggler navbar-toggler-right';
 
-        let { products } = this.props;
         return (
             <React.Fragment>
             <div className="navbar-area">
@@ -85,33 +109,30 @@ class MegaMenu extends Component {
                                         </Link>
                                     </li>
                                     
-                                    <li className="nav-item megamenu">
-                                        <Link href="#">
+                                    <li className="nav-item p-relative">
+                                        <Link href="/category-left-sidebar">
                                             <a className="nav-link">
                                                 Shop <i className="fas fa-chevron-down"></i>
                                             </a>
                                         </Link>
+
                                         <ul className="dropdown-menu">
-                                            <li className="nav-item">
-                                                <div className="container">
-                                                    <div className="row">
-                                                        <div className="col">
-
-                                                            <ul className="megamenu-submenu">
-                                                                <li>
-                                                                    <Link href="/category-left-sidebar">
-                                                                        <a>Left Sidebar</a>
-                                                                    </Link>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
+                                            {
+                                                categories.map(category => (
+                                                    <li key={category.id} className="nav-item">
+                                                        <Link href={"/category-left-sidebar?category=" + category.slug}>
+                                                            <a>{category.name}</a>
+                                                        </Link>
+                                                    </li>
+                                                ))
+                                            }
 
 
-                                                    </div>
-                                                </div>
-                                            </li>
+
+
                                         </ul>
                                     </li>
+
 
 
 
@@ -299,10 +320,4 @@ class MegaMenu extends Component {
     }
 }
 
-const mapStateToProps = (state)=>{
-    return{
-        products: state.addedItems
-    }
-}
-
-export default connect(mapStateToProps)(MegaMenu)
+export default MegaMenu;

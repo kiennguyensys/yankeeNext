@@ -46,11 +46,12 @@ class Products extends Component {
         price: 0,
         idd: null,
         display: false,
-        panel: true
+        panel: true,
+        products: undefined
     };
 
     handleAddToCart = (id) => {
-        this.props.addToCart(id); 
+        //this.props.addToCart(id); 
 
         toast.success('Added to the cart', {
             position: "bottom-left",
@@ -82,6 +83,51 @@ class Products extends Component {
 
     componentDidMount(){ 
         this.setState({ display: true }) 
+        console.log(this.props.categories)
+        this.fetchProducts(this.props.categories)
+    }
+
+    fetchProducts = (categories) => {
+        const query = `
+            query {
+              Tab1:allProducts(where: {categories_every: {slug: "`+ categories[0] +`"}}) {
+                id,
+                title,
+                price,
+                image,
+                imageHover
+              }
+              Tab2:allProducts(where: {categories_every: {slug: "`+ categories[1] +`"}}) {
+                id,
+                title,
+                price,
+                image,
+                imageHover
+              }
+
+              Tab3:allProducts(where: {categories_every: {slug: "`+ categories[2] +`"}}) {
+                id,
+                title,
+                price,
+                image,
+                imageHover
+              }
+            }
+        `;
+
+        const url = "https://yankeesim-admin.herokuapp.com/admin/api";
+        const opts = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query })
+        };
+        fetch(url, opts)
+          .then(res => res.json())
+            .then(result => {
+                console.log(result)
+                this.setState({products: result.data})
+            })
+          .catch(console.error);
     }
 
     openModal = () => {
@@ -101,8 +147,9 @@ class Products extends Component {
     }
 
     render() {
-        let { products } = this.props;
+        let { products } = this.state;
         const { modalOpen } = this.state;
+        const { categories } = this.props;
         return (
             <section className="all-products-area pb-60">
                 <ReactTooltip  />
@@ -117,25 +164,25 @@ class Products extends Component {
                                         className="current"
                                     >
                                         <a href="#">
-                                            <span className="dot"></span> Latest Products
+                                            <span className="dot"></span> Sim Mỹ Giá Rẻ 
                                         </a>
                                     </li>
-                                    
+
                                     <li
                                         onClick={(e) => {e.preventDefault(); this.openTabSection(e, 'tab2')}}
                                         className="current"
                                     >
                                         <a href="#">
-                                            <span className="dot"></span> Special Products
+                                            <span className="dot"></span> Sim Mỹ Canada
                                         </a>
                                     </li>
-                                    
+
                                     <li
                                         onClick={(e) => {e.preventDefault(); this.openTabSection(e, 'tab3')}}
                                         className="current"
                                     >
                                         <a href="#">
-                                            <span className="dot"></span> Featured Products
+                                            <span className="dot"></span> Sim Châu Âu
                                         </a>
                                     </li>
                                 </ul>
@@ -149,7 +196,7 @@ class Products extends Component {
                                             className="all-products-slides owl-carousel owl-theme"
                                             {...options}
                                         >
-                                            {products.map((data, idx) => (
+                                            {products && products.Tab1.map((data, idx) => (
                                                 <div className="col-lg-12 col-md-12" key={idx}>
                                                     <div className="single-product-box">
                                                         <div className="product-image">
@@ -231,7 +278,7 @@ class Products extends Component {
                                             className="all-products-slides owl-carousel owl-theme"
                                             {...options}
                                         >
-                                            {products.map((data, idx) => (
+                                            {products && products.Tab2.map((data, idx) => (
                                                 <div className="col-lg-12 col-md-12" key={idx}>
                                                     <div className="single-product-box">
                                                         <div className="product-image">
@@ -314,7 +361,7 @@ class Products extends Component {
                                             className="all-products-slides owl-carousel owl-theme"
                                             {...options}
                                         >
-                                            {products.map((data, idx) => (
+                                            {products && products.Tab3.map((data, idx) => (
                                                 <div className="col-lg-12 col-md-12" key={idx}>
                                                     <div className="single-product-box">
                                                         <div className="product-image">
@@ -405,19 +452,4 @@ class Products extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        products: state.products
-    }
-}
-
-const mapDispatchToProps= (dispatch) => {
-    return {
-        addToCart: (id) => { dispatch(addToCart(id)) }
-    }
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Products)
+export default Products

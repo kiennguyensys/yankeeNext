@@ -49,7 +49,7 @@ class BestSeller extends Component {
     };
 
     handleAddToCart = (id) => {
-        this.props.addToCart(id); 
+        //this.props.addToCart(id); 
 
         toast.success('Added to the cart', {
             position: "bottom-left",
@@ -213,19 +213,6 @@ class BestSeller extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        products: state.products
-    }
-}
+export default BestSeller;
 
-const mapDispatchToProps= (dispatch) => {
-    return {
-        addToCart: (id) => { dispatch(addToCart(id)) }
-    }
-}
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(BestSeller)

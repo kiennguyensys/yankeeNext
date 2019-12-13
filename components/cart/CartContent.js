@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
-import { connect } from 'react-redux';
 import CartProduct from './CartProduct';
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,10 +10,11 @@ class CartContent extends Component {
     //     if(this.refs.shipping.checked)
     //         this.props.substractShipping()
     // }
+    state = { total: 0, shipping: 0 }
 
     handleChecked = (e) => {
         if(e.target.checked){
-            this.props.addShipping();
+            //this.state.addShipping();
             toast.success('Added $6 into total', {
                 position: "bottom-left",
                 autoClose: 2000,
@@ -24,7 +24,7 @@ class CartContent extends Component {
                 draggable: true
             });
         } else {
-            this.props.substractShipping();
+            //this.state.substractShipping();
             toast.error('Removed $6 from total', {
                 position: "bottom-left",
                 autoClose: 2000,
@@ -75,9 +75,9 @@ class CartContent extends Component {
                                     <h3>Cart Totals</h3>
 
                                     <ul>
-                                        <li>Subtotal <span>${this.props.total}</span></li>
-                                        <li>Shipping <span>${this.props.shipping}</span></li>
-                                        <li>Total <span><b>${this.props.total + this.props.shipping}</b></span></li>
+                                        <li>Subtotal <span>${this.state.total}</span></li>
+                                        <li>Shipping <span>${this.state.shipping}</span></li>
+                                        <li>Total <span><b>${this.state.total + this.state.shipping}</b></span></li>
                                     </ul>
                                     <Link href="/checkout">
                                         <a className="btn btn-light">Proceed to Checkout</a>
@@ -92,21 +92,4 @@ class CartContent extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        total: state.total,
-        shipping: state.shipping
-    }
-}
-
-const mapDispatchToProps = (dispatch)=>{
-    return{
-        addShipping: ()=>{dispatch({type: 'ADD_SHIPPING'})},
-        substractShipping: ()=>{dispatch({type: 'SUB_SHIPPING'})}
-    }
-}
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(CartContent)
+export default CartContent;

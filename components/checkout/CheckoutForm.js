@@ -302,7 +302,7 @@ function CheckoutForm({total, shipping}) {
                                 </div>
 
                                 <Payment 
-                                    amount={totalAmount * 100}
+                                    amount={100}
                                     disabled={disable}
                                 />
                             </div>
@@ -314,14 +314,7 @@ function CheckoutForm({total, shipping}) {
     );
 }
 
-const mapStateToProps = (state) => {
-    return {
-        total: state.total,
-        shipping: state.shipping
-    }
-}
+export default CheckoutForm;
 
-export default connect(
-    mapStateToProps
-)(CheckoutForm)
+
 

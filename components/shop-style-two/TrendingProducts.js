@@ -50,7 +50,7 @@ class TrendingProducts extends Component {
     };
 
     handleAddToCart = (id) => {
-        this.props.addToCart(id); 
+        //this.props.addToCart(id); 
 
         toast.success('Added to the cart', {
             position: "bottom-left",
@@ -100,8 +100,8 @@ class TrendingProducts extends Component {
     }
 
     handleModalData = (product) => {
-        this.setState({ 
-            modalProduct: product, 
+        this.setState({
+            modalProduct: product,
         });
     }
 
@@ -213,19 +213,8 @@ class TrendingProducts extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        products: state.products
-    }
-}
 
-const mapDispatchToProps= (dispatch) => {
-    return {
-        addToCart: (id) => { dispatch(addToCart(id)) }
-    }
-}
+export default TrendingProducts
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(TrendingProducts)
+
+

@@ -11,10 +11,11 @@ class ProductsCard extends Component {
         modalOpen: false,
         modalImage: '',
         price: 0,
+        products: [],
         idd: null
     };
     handleAddToCart = (id) => {
-        this.props.addToCart(id); 
+        //this.props.addToCart(id); 
 
         toast.success('Added to the cart', {
             position: "bottom-left",
@@ -41,7 +42,7 @@ class ProductsCard extends Component {
     }
 
     render() {
-        let { products } = this.props;
+        let { products } = this.state;
         const { modalOpen } = this.state;
         return (
             <React.Fragment>
@@ -130,19 +131,6 @@ class ProductsCard extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        products: state.products
-    }
-}
+export default ProductsCard;
 
-const mapDispatchToProps= (dispatch) => {
-    return {
-        addToCart: (id) => { dispatch(addToCart(id)) }
-    }
-}
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ProductsCard)

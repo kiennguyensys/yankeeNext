@@ -6,9 +6,10 @@ import { ToastContainer, toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export class Content extends Component {
+    state = { compare_products: [] }
 
     handleRemove = (id) => {
-        this.props.removeItemFromCompare(id);
+        //this.props.removeItemFromCompare(id);
 
         toast.error('Removed from compare list', {
             position: "bottom-left",
@@ -21,7 +22,7 @@ export class Content extends Component {
     }
 
     handleAddToCart = (id) => {
-        this.props.addToCart(id); 
+        //this.props.addToCart(id); 
 
         toast.success('Added to the cart', {
             position: "bottom-left",
@@ -34,7 +35,7 @@ export class Content extends Component {
     }
 
     render() {
-        let { compare_products } = this.props;
+        let { compare_products } = this.state;
         return (
             <section className="compare-area ptb-60">
                 <ToastContainer transition={Slide} />
@@ -114,20 +115,7 @@ export class Content extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        compare_products: state.addedItemsToCompare
-    }
-}
+export default Content;
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        addToCart: (id) => { dispatch(addToCart(id)) },
-        removeItemFromCompare: (id) => {dispatch(removeItemFromCompare(id))}
-    }
-}
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Content)
+

@@ -176,8 +176,8 @@ img {
 
 .btn-primary {
   color: #ffffff;
-  background-color: #3DB895;
-  border-color: #3DB895;
+  background-color: #222222;
+  border-color: #ffffff;
 }
 
 .btn-primary.disabled, .btn-primary:disabled {
@@ -1446,7 +1446,7 @@ Main Banner Area CSS
   position: relative;
   z-index: 1;
   background-color: #f1f1f1;
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
 }
 
@@ -1764,7 +1764,7 @@ Offer Area CSS
 
 .offer-area {
   background-image: url(../../images/offer-bg.jpg);
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 .offer-box {
@@ -3054,7 +3054,6 @@ Facility Area CSS
 .facility-box .icon i {
   -webkit-transition: 0.5s;
   transition: 0.5s;
-  color: #3db895;
 }
 
 .facility-box h3 {
@@ -3075,10 +3074,11 @@ Testimonials Area CSS
 .testimonials-area {
   position: relative;
   z-index: 1;
-  background-position: center center;
+  display: table;
+  width: 100%;
   background-size: cover;
-  background-repeat: no-repeat;
-  background-image: url(../../images/testimonials-bg.png);
+  background-position: center top;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../../images/testimonials-bg.png);
 }
 
 .single-testimonials {

@@ -9,7 +9,7 @@ import { resetCart } from '../../store/actions/cartActions';
 
 class Payments extends React.Component {
     handleClick = () => {
-        this.props.resetCart(); 
+        //this.props.resetCart(); 
         toast.success('Order has been confirmed', {
             position: "top-center",
             autoClose: 3000,
@@ -56,13 +56,6 @@ class Payments extends React.Component {
     }
 }
 
-const mapDispatchToProps= (dispatch)=>{
-    return {
-        resetCart: () => { dispatch(resetCart()) }
-    }
-}
+export default Payments;
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(Payments)
+

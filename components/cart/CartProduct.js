@@ -7,8 +7,10 @@ import 'react-toastify/dist/ReactToastify.css';
 
 class CartProduct extends Component {
 
+    state = { products: [], total: 0 }
+
     handleRemove = (id) => {
-        this.props.removeItem(id);
+        //this.state.removeItem(id);
 
         toast.error('Removed from cart', {
             position: "bottom-left",
@@ -21,17 +23,17 @@ class CartProduct extends Component {
     }
     //to add the quantity
     handleAddQuantity = (id)=>{
-        this.props.addQuantity(id);
+        //this.state.addQuantity(id);
     }
     //to substruct from the quantity
     handleSubtractQuantity = (id)=>{
-        this.props.subtractQuantity(id);
+        //this.state.subtractQuantity(id);
     }
 
     render() {
-        let cartItems = this.props.products.length ?
+        let cartItems = this.state.products.length ?
         (
-            this.props.products.map((data, idx) => {
+            this.state.products.map((data, idx) => {
                 return (
                     <tr key={idx}>
                         <td className="product-thumbnail">
@@ -127,22 +129,4 @@ class CartProduct extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        products: state.addedItems,
-        total: state.total
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        removeItem: (id) => {dispatch(removeItem(id))},
-        addQuantity: (id) => {dispatch(addQuantity(id))},
-        subtractQuantity: (id) => {dispatch(subtractQuantity(id))}
-    }
-}
-
-export default connect(
-    mapStateToProps, 
-    mapDispatchToProps
-)(CartProduct)
+export default CartProduct;

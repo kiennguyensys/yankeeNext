@@ -11,7 +11,7 @@ class OfferArea extends Component {
                             <div className="offer-box">
 
                                     <h3>T-MOBILE 10 ngày</h3>
-                                    <p> Giá rẻ </p>
+                                    <p> Giá Rẻ </p>
 
                                     <div className="circle">1tr</div>
 
@@ -60,7 +60,7 @@ class OfferArea extends Component {
                                         </li>
                                         <li>
                                             <Link href="#">
-                                                <a>Cheap price</a>
+                                                <a>Cheap Price</a>
                                             </Link>
 
                                         </li>
@@ -130,7 +130,7 @@ class OfferArea extends Component {
                                         </li>
                                         <li>
                                             <Link href="#">
-                                                <a>Best seller</a>
+                                                <a>Best Seller</a>
                                             </Link>
 
                                         </li>

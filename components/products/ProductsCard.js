@@ -24,44 +24,38 @@ class ProductsCard extends PureComponent {
     }
 
     componentDidMount () {
-        const query = `
-            query {
-              allProducts(where: {id_not: 0}) {
-                id,
-                title,
-                price,
-                image,
-                imageHover
-              }
-            }
-        `;
-        const url = "https://yankeesim-admin.herokuapp.com/admin/api";
-        const opts = {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ query })
-        };
-        fetch(url, opts)
-          .then(res => res.json())
-            .then(result => {
-                console.log(result)
-                this.setState({products: result.data.allProducts})
-            })
-          .catch(console.error);
+        this.fetchData(this.props.category)
+
     }
 
     fetchData = (category) => {
-        const query = `
-            query {
-              allProducts(where: {categories_every: {slug: "`+ category.toString() +`"}}) {
-                id,
-                title,
-                price,
-                image,
-                imageHover
-              }
-            }
-        `;
+        let query;
+
+        if (category)
+            query = `
+               query {
+                 allProducts(where: {categories_every: {slug: "`+ category.toString() +`"}}) {
+                   id,
+                   title,
+                   price,
+                   image,
+                   imageHover
+                 }
+               }
+           `;
+        else
+            query = `
+                query {
+                  allProducts {
+                    id,
+                    title,
+                    price,
+                    image,
+                    imageHover
+                  }
+                }
+            `;
+
 
         const url = "https://yankeesim-admin.herokuapp.com/admin/api";
         const opts = {
@@ -79,7 +73,7 @@ class ProductsCard extends PureComponent {
     }
 
     handleAddToCart = (id) => {
-        this.props.addToCart(id); 
+        //this.props.addToCart(id); 
 
         toast.success('Added to the cart', {
             position: "bottom-left",
@@ -195,19 +189,7 @@ class ProductsCard extends PureComponent {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        products: state.products
-    }
-}
 
-const mapDispatchToProps= (dispatch) => {
-    return {
-        addToCart: (id) => { dispatch(addToCart(id)) }
-    }
-}
+export default ProductsCard;
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ProductsCard)
+

@@ -5,7 +5,9 @@ import Link from 'next/link';
 class Cart extends Component {
 
     state = {
-        display: false
+        display: false,
+        products: [],
+        total: 0
     };
 
     closeCart = () => {
@@ -13,7 +15,7 @@ class Cart extends Component {
     }
 
     render() {
-        let { products, total } = this.props;
+        let { products, total } = this.state;
         return (
             <div 
                 className="modal right fade show shoppingCartModal" 
@@ -84,12 +86,4 @@ class Cart extends Component {
     }
 }
 
-const mapStateToProps = (state)=>{
-    return{
-        products: state.addedItems,
-        total: state.total
-        //addedItems: state.addedItems
-    }
-}
-
-export default connect(mapStateToProps)(Cart)
+export default Cart;

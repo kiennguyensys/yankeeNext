@@ -45,10 +45,11 @@ class BestSeller extends Component {
         price: 0,
         idd: null,
         display: false,
+        products: [],
     };
 
     handleAddToCart = (id) => {
-        this.props.addToCart(id); 
+        //this.props.addToCart(id); 
 
         toast.success('Added to the cart', {
             position: "bottom-left",
@@ -80,7 +81,7 @@ class BestSeller extends Component {
         });
     }
     render() {
-        let { products } = this.props;
+        let { products } = this.state;
         const { modalOpen } = this.state;
         return (
             <section className="best-sellers-area pb-60">
@@ -188,19 +189,6 @@ class BestSeller extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        products: state.products
-    }
-}
+export default BestSeller;
 
-const mapDispatchToProps= (dispatch) => {
-    return {
-        addToCart: (id) => { dispatch(addToCart(id)) }
-    }
-}
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(BestSeller)

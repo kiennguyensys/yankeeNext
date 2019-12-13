@@ -7,15 +7,18 @@ import '../assets/styles/slick.css';
 import '../assets/styles/slick-theme.css';
 
 import { Provider } from 'react-redux';
-import App, {Container} from 'next/app';
+import App from 'next/app';
 import withRedux from 'next-redux-wrapper';
 import { initStore } from '../store/reducers/cartReducer';
 import { DefaultSeo } from 'next-seo';
 import GoTop from '../components/Shared/GoTop';
 import ReactGA from 'react-ga';
+import { ApolloProvider } from '@apollo/react-hooks';
+
+import withApollo from '../utils/apollo-client';
 
 
-export default withRedux(initStore)(
+export default withApollo(
     class MyApp extends App {
         
         static async getInitialProps ({ Component, ctx }) {
@@ -33,10 +36,10 @@ export default withRedux(initStore)(
         }
 
         render () {
-            const { Component, pageProps, store } = this.props
+            const { Component, pageProps, apollo } = this.props
 
             return (
-                <Container>
+                <ApolloProvider client={apollo}>
                     <DefaultSeo
                         title="YankeeSim - React Next eCommerce Templates"
                         description="YankeeSim - React Next eCommerce Templates. This has been built with React, Next.js, Express.js, and ES6+"
@@ -47,11 +50,10 @@ export default withRedux(initStore)(
                             site_name: 'YankeeSim - React Next eCommerce Templates',
                         }}
                     />
-                    <Provider store={store}>
-                        <Component {...pageProps} />
-                    </Provider>
+
+                    <Component {...pageProps} />
                     <GoTop scrollStepInPx="50" delayInMs="16.66" />
-                </Container>
+                </ApolloProvider>
             );
         }
     }
