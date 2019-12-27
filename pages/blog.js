@@ -12,7 +12,7 @@ class Index extends Component {
                 <Navbar />
                 <Breadcrumb title="Blog" />
                 <BlogGrid />
-                
+
                 <Facility />
                 <Footer />
             </React.Fragment>

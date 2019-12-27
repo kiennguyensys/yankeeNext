@@ -186,7 +186,7 @@ class RelatedProducts extends Component {
                                                 </h3>
 
                                                 <div className="product-price">
-                                                    <span className="new-price">${data.price}</span>
+                                                    <span className="new-price">{data.price} đ</span>
                                                 </div>
 
                                                 <div className="rating">

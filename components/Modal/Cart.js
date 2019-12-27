@@ -6,8 +6,6 @@ class Cart extends Component {
 
     state = {
         display: false,
-        products: [],
-        total: 0
     };
 
     closeCart = () => {
@@ -15,7 +13,7 @@ class Cart extends Component {
     }
 
     render() {
-        let { products, total } = this.state;
+        let { products, total } = this.props;
         return (
             <div 
                 className="modal right fade show shoppingCartModal" 
@@ -49,14 +47,14 @@ class Cart extends Component {
                                         <div className="product-content">
                                             <h3>
                                                 <Link href="#">
-                                                    <a>Belted chino trousers polo</a>
+                                                    <a>{product.title}</a>
                                                 </Link>
                                             </h3>
-                                            <span>Blue / XS</span>
+
                                             <div className="product-price">
                                                 <span>{product.quantity}</span>
                                                 <span>x</span>
-                                                <span className="price">${product.price}</span>
+                                                <span className="price">{product.price} đ</span>
                                             </div>
                                         </div>
                                     </div>
@@ -67,7 +65,7 @@ class Cart extends Component {
                             <div className="product-cart-subtotal">
                                 <span>Subtotal</span>
 
-                                <span className="subtotal">${total}</span>
+                                <span className="subtotal">{total} đ</span>
                             </div>
 
                             <div className="product-cart-btn">
@@ -86,4 +84,12 @@ class Cart extends Component {
     }
 }
 
-export default Cart;
+const mapStateToProps = (state)=>{
+    return{
+        products: state.addedItems,
+        total: state.total
+        //addedItems: state.addedItems
+    }
+}
+
+export default connect(mapStateToProps)(Cart)

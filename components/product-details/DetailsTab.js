@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
+import Router from 'next/router';
 
 const useTagFunc = () => {
     let useTag = '<use xlink:href="#star" />';
@@ -7,6 +8,15 @@ const useTagFunc = () => {
 }
 
 class DetailsTab extends Component {
+    constructor(props) {
+        super(props);
+        this.radio1 = React.createRef();
+        this.radio2 = React.createRef();
+        this.radio3 = React.createRef();
+        this.radio4 = React.createRef();
+        this.radio5 = React.createRef();
+        this.reviewBody = React.createRef();
+    }
 
     openTabSection = (evt, tabNmae) => {
         let i, tabcontent, tablinks;
@@ -26,8 +36,56 @@ class DetailsTab extends Component {
         evt.currentTarget.className += "current";
     }
 
+    handleReviewSubmit = (e) => {
+        const radio1 = this.radio1.current.checked
+        const radio2 = this.radio2.current.checked
+        const radio3 = this.radio3.current.checked
+        const radio4 = this.radio4.current.checked
+        const radio5 = this.radio5.current.checked
+
+        if (radio1) this.createReview(1)
+        if (radio2) this.createReview(2)
+        if (radio3) this.createReview(3)
+        if (radio4) this.createReview(4)
+        if (radio5) this.createReview(5)
+
+
+        e.preventDefault()
+    }
+    
+    createReview = (stars) => {
+
+        const body = this.reviewBody.current.value.toString()
+        const date = new Date()
+
+        const mutation = `
+            mutation {
+              createProductReview(data:{body: "` + body + `", originalProduct:{connect: { id: "` + this.props.product.id.toString() + `"}}, author:{connect: { id: "`+ this.props.user.id +`"}}, posted:"`+ date.toISOString() +`", ratingStarsNumber:` + stars + `}) {
+                id,
+                body
+              }
+            }
+        `;
+
+        const url = "https://yankeesim-admin.herokuapp.com/admin/api";
+        const opts = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query:mutation })
+        };
+        fetch(url, opts)
+          .then(res => res.json())
+            .then(result => {
+                if(result.data.createProductReview) {
+                    Router.push('/')
+                }
+            })
+          .catch(console.error);
+
+    }
+
     render() {
-        const { product } = this.props
+        const { product, user } = this.props
         return (
             <div className="col-lg-12 col-md-12">
                 <div className="tab products-details-tab">
@@ -99,13 +157,12 @@ class DetailsTab extends Component {
                                                     this.props.reviews.map((review, key) => (
                                                         <div key={key} className="review-item">
                                                             <div className="rating">
-                                                                <i className="fas fa-star"></i>
-                                                                <i className="fas fa-star"></i>
-                                                                <i className="fas fa-star"></i>
-                                                                <i className="fas fa-star"></i>
-                                                                <i className="far fa-star"></i>
+                                                                {
+                                                                    Array(review.ratingStarsNumber).fill(
+                                                                        <i className="fas fa-star"></i>
+                                                                    )
+                                                                }
                                                             </div>
-                                                            <h3>Good</h3>
                                                             <span><strong>{review.author.name}</strong> on <strong>{review.posted.split('T')[0]}</strong></span>
                                                             <p>{review.body}</p>
 
@@ -120,73 +177,65 @@ class DetailsTab extends Component {
 
                                             <div className="review-form">
                                                 <h3>Write a Review</h3>
+                                                {
+                                                    user ?
+                                                        (
+                                                            <form>
+                                                                <div className="review-rating">
+                                                                    <p>Rate this item</p>
 
-                                                <form>
-                                                    <div className="form-group">
-                                                        <label>Name</label>
-                                                        <input type="text" id="name" name="name" placeholder="Enter your name" className="form-control" />
-                                                    </div>
+                                                                    <div className="star-source">
+                                                                        <svg>
+                                                                            <linearGradient x1="50%" y1="5.41294643%" x2="87.5527344%" y2="65.4921875%" id="grad">
+                                                                                <stop stopColor="#f2b01e" offset="0%"></stop>
+                                                                                <stop stopColor="#f2b01e" offset="60%"></stop>
+                                                                                <stop stopColor="#f2b01e" offset="100%"></stop>
+                                                                            </linearGradient>
+                                                                            <symbol id="star" viewBox="153 89 106 108">   
+                                                                                <polygon id="star-shape" stroke="url(#grad)" stroke-width="5" fill="currentColor" points="206 162.5 176.610737 185.45085 189.356511 150.407797 158.447174 129.54915 195.713758 130.842203 206 95 216.286242 130.842203 253.552826 129.54915 222.643489 150.407797 235.389263 185.45085"></polygon>
+                                                                            </symbol>
+                                                                        </svg>
+                                                                    </div>
 
-                                                    <div className="form-group">
-                                                        <label>Email</label>
-                                                        <input type="email" id="email" name="email" placeholder="Enter your email" className="form-control" />
-                                                    </div>
+                                                                    <div className="star-rating">
+                                                                        <input type="radio" name="star" id="five" value="5" ref={this.radio5} />
+                                                                        <label htmlFor="five">
+                                                                            {useTagFunc()}
+                                                                        </label>
 
-                                                    <div className="review-rating">
-                                                        <p>Rate this item</p>
-                                
-                                                        <div className="star-source">
-                                                            <svg>
-                                                                <linearGradient x1="50%" y1="5.41294643%" x2="87.5527344%" y2="65.4921875%" id="grad">
-                                                                    <stop stopColor="#f2b01e" offset="0%"></stop>
-                                                                    <stop stopColor="#f2b01e" offset="60%"></stop>
-                                                                    <stop stopColor="#f2b01e" offset="100%"></stop>
-                                                                </linearGradient>
-                                                                <symbol id="star" viewBox="153 89 106 108">   
-                                                                    <polygon id="star-shape" stroke="url(#grad)" stroke-width="5" fill="currentColor" points="206 162.5 176.610737 185.45085 189.356511 150.407797 158.447174 129.54915 195.713758 130.842203 206 95 216.286242 130.842203 253.552826 129.54915 222.643489 150.407797 235.389263 185.45085"></polygon>
-                                                                </symbol>
-                                                            </svg>
-                                                        </div>
+                                                                        <input type="radio" name="star" id="four" value="4" ref={this.radio4} />
+                                                                        <label htmlFor="four">
+                                                                            {useTagFunc()}
+                                                                        </label>
 
-                                                        <div className="star-rating">
-                                                            <input type="radio" name="star" id="five" />
-                                                            <label htmlFor="five">
-                                                                {useTagFunc()}
-                                                            </label>
+                                                                        <input type="radio" name="star" id="three" value="3" ref={this.radio3} />
+                                                                        <label htmlFor="three">
+                                                                            {useTagFunc()}
+                                                                        </label>
 
-                                                            <input type="radio" name="star" id="four" />
-                                                            <label htmlFor="four">
-                                                                {useTagFunc()}
-                                                            </label>
+                                                                        <input type="radio" name="star" id="two" value="2" ref={this.radio2} />
+                                                                        <label htmlFor="two">
+                                                                            {useTagFunc()}
+                                                                        </label>
 
-                                                            <input type="radio" name="star" id="three" />
-                                                            <label htmlFor="three">
-                                                                {useTagFunc()}
-                                                            </label>
+                                                                        <input type="radio" name="star" id="one" value="1" ref={this.radio1} />
+                                                                        <label htmlFor="one">
+                                                                            {useTagFunc()}
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
 
-                                                            <input type="radio" name="star" id="two" />
-                                                            <label htmlFor="two">
-                                                                {useTagFunc()}
-                                                            </label>
-
-                                                            <input type="radio" name="star" id="one" />
-                                                            <label htmlFor="one">
-                                                                {useTagFunc()}
-                                                            </label>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="form-group">
-                                                        <label>Review Title</label>
-                                                        <input type="text" id="review-title" name="review-title" placeholder="Enter your review a title" className="form-control" />
-                                                    </div>
-
-                                                    <div className="form-group">
-                                                        <label>Body of Review (1500)</label>
-                                                        <textarea name="review-body" id="review-body" cols="30" rows="10" placeholder="Write your comments here" className="form-control" />
-                                                    </div>
-                                                    <button type="submit" className="btn btn-light">Submit Review</button>
-                                                </form>
+                                                                <div className="form-group">
+                                                                    <label>Body of Review (1500)</label>
+                                                                    <textarea name="review-body" ref={this.reviewBody} cols="30" rows="10" placeholder="Write your comments here" className="form-control" />
+                                                                </div>
+                                                                <button className="btn btn-light" onClick={this.handleReviewSubmit}>Submit Review</button>
+                                                            </form>
+                                                        ) :
+                                                        (
+                                                            <p>* Login is required to review</p>
+                                                        )
+                                                    }
                                             </div>
                                         </div>
                                     </div>

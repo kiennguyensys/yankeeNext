@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { addQuantityWithNumber } from '../../store/actions/cartActions';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -12,7 +13,7 @@ class QuickView extends Component {
     };
 
     handleAddToCartFromView = () => {
-        //this.props.addQuantityWithNumber(this.props.idd, this.state.qty); 
+        this.props.addQuantityWithNumber(this.props.product, this.state.qty); 
 
         toast.success('Added to the cart', {
             position: "bottom-left",
@@ -72,7 +73,7 @@ class QuickView extends Component {
                                     <h3><a href="#">{product.title}</a></h3>
 
                                     <div className="price">
-                                        <span className="new-price">${product.price}</span>
+                                        <span className="new-price">{product.price} đ</span>
                                     </div>
 
                                     <div className="product-review">
@@ -133,4 +134,13 @@ class QuickView extends Component {
     }
 }
 
-export default QuickView;
+const mapDispatchToProps= (dispatch)=>{
+    return {
+        addQuantityWithNumber: (product, qty) => {dispatch(addQuantityWithNumber(product, qty))}
+    }
+}
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(QuickView)

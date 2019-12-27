@@ -6,12 +6,18 @@ import Breadcrumb from '../components/Common/Breadcrumb';
 import CheckoutForm from '../components/checkout/CheckoutForm';
 
 class Index extends Component {
+    state = { user: undefined }
+
+    componentDidMount () {
+        this.setState({ user: JSON.parse(localStorage.getItem('user'))})
+    }
+
     render() {
         return (
             <React.Fragment>
                 <Navbar />
                 <Breadcrumb title="Checkout" />
-                <CheckoutForm />
+                <CheckoutForm user={this.state.user} />
 
                 <Facility />
                 <Footer />

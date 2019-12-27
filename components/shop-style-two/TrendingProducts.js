@@ -49,8 +49,8 @@ class TrendingProducts extends Component {
         modalProduct: {}
     };
 
-    handleAddToCart = (id) => {
-        //this.props.addToCart(id); 
+    handleAddToCart = (product) => {
+        this.props.addToCart(product); 
 
         toast.success('Added to the cart', {
             position: "bottom-left",
@@ -175,7 +175,7 @@ class TrendingProducts extends Component {
                                         </h3>
 
                                         <div className="product-price">
-                                            <span className="new-price">${data.price}</span>
+                                            <span className="new-price">{data.price} đ</span>
                                         </div>
 
                                         <div className="rating">
@@ -189,7 +189,7 @@ class TrendingProducts extends Component {
                                             <a 
                                                 className="btn btn-light"
                                                 onClick={(e) => {
-                                                    e.preventDefault(); this.handleAddToCart(data.id)
+                                                    e.preventDefault(); this.handleAddToCart(data)
                                                 }}
                                             >
                                                 Add to Cart
@@ -213,8 +213,17 @@ class TrendingProducts extends Component {
     }
 }
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addToCart: (product) => { dispatch(addToCart(product)) }
+    }
+}
 
-export default TrendingProducts
+export default connect(
+    null,
+    mapDispatchToProps
+)(TrendingProducts)
+
 
 
 

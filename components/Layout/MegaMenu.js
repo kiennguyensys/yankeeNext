@@ -9,7 +9,7 @@ class MegaMenu extends Component {
         display: false,
         searchForm: false,
         collapsed: true,
-        products: [],
+        user: {},
         categories: []
     };
 
@@ -46,6 +46,8 @@ class MegaMenu extends Component {
         });
         window.scrollTo(0, 0);
 
+        this.setState({user: JSON.parse(localStorage.getItem('user'))})
+
         const query = `
             query {
               allProductCategories(where: {id_not: 0}) {
@@ -71,7 +73,8 @@ class MegaMenu extends Component {
     }
 
     render() {
-        const { collapsed, products, categories } = this.state;
+        const { collapsed, user, categories } = this.state;
+
         const classOne = collapsed ? 'collapse navbar-collapse' : 'collapse navbar-collapse show';
         const classTwo = collapsed ? 'navbar-toggler navbar-toggler-right collapsed' : 'navbar-toggler navbar-toggler-right';
 
@@ -163,26 +166,11 @@ class MegaMenu extends Component {
                                                 </Link>
                                             </li>
 
-                                            <li className="nav-item"><a href="#" className="nav-link">Account</a>
-                                                <ul className="dropdown-menu">
-                                                    <li className="nav-item">
-                                                        <Link href="/login">
-                                                            <a className="nav-link">Login</a>
-                                                        </Link>
-                                                    </li>
+                                            <li className="nav-item">
+                                                <Link href="/account">
+                                                    <a className="nav-link">Account</a>
+                                                </Link>
 
-                                                    <li className="nav-item">
-                                                        <Link href="/signup">
-                                                            <a className="nav-link">Signup</a>
-                                                        </Link>
-                                                    </li>
-
-                                                    <li className="nav-item">
-                                                        <Link href="/cart">
-                                                            <a className="nav-link">Cart</a>
-                                                        </Link>
-                                                    </li>
-                                                </ul>
                                             </li>
 
                                             <li className="nav-item">
@@ -289,12 +277,19 @@ class MegaMenu extends Component {
                                         </div>
                                     </div>
 
-                                    <div className="option-item">
-                                        <Link href="/login">
-                                            <a>Login</a>
-                                        </Link>
-                                    </div>
-
+                                    { !user ? (
+                                        <div className="option-item">
+                                            <Link href="/login">
+                                                <a>Login</a>
+                                            </Link>
+                                        </div>
+                                    ) : (
+                                        <div className="option-item">
+                                            <Link href="/">
+                                                <a>{user.name}</a>
+                                            </Link>
+                                        </div>
+                                    )}
                                     <div className="option-item">
                                         <Link href="#">
                                             <a
@@ -303,7 +298,7 @@ class MegaMenu extends Component {
                                                     this.handleCart()
                                                 }}
                                             >
-                                                Cart({products.length}) <i className="fas fa-shopping-bag"></i>
+                                                Cart({this.props.products.length}) <i className="fas fa-shopping-bag"></i>
                                             </a>
                                         </Link>
                                     </div>
@@ -320,4 +315,10 @@ class MegaMenu extends Component {
     }
 }
 
-export default MegaMenu;
+const mapStateToProps = (state)=>{
+    return{
+        products: state.addedItems
+    }
+}
+
+export default connect(mapStateToProps)(MegaMenu)

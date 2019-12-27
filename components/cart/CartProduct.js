@@ -7,10 +7,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 class CartProduct extends Component {
 
-    state = { products: [], total: 0 }
-
-    handleRemove = (id) => {
-        //this.state.removeItem(id);
+    handleRemove = (product) => {
+        this.props.removeItem(product);
 
         toast.error('Removed from cart', {
             position: "bottom-left",
@@ -22,18 +20,18 @@ class CartProduct extends Component {
         });
     }
     //to add the quantity
-    handleAddQuantity = (id)=>{
-        //this.state.addQuantity(id);
+    handleAddQuantity = (product)=>{
+        this.props.addQuantity(product);
     }
     //to substruct from the quantity
-    handleSubtractQuantity = (id)=>{
-        //this.state.subtractQuantity(id);
+    handleSubtractQuantity = (product)=>{
+        this.props.subtractQuantity(product);
     }
 
     render() {
-        let cartItems = this.state.products.length ?
+        let cartItems = this.props.products.length ?
         (
-            this.state.products.map((data, idx) => {
+            this.props.products.map((data, idx) => {
                 return (
                     <tr key={idx}>
                         <td className="product-thumbnail">
@@ -48,22 +46,17 @@ class CartProduct extends Component {
                             <Link href="#">
                                 <a>{data.title}</a>
                             </Link>
-                            <ul>
-                                <li>Color: <strong>Light Blue</strong></li>
-                                <li>Size: <strong>XL</strong></li>
-                                <li>Material: <strong>Cotton</strong></li>
-                            </ul>
                         </td>
 
                         <td className="product-price">
-                            <span className="unit-amount">${data.price}</span>
+                            <span className="unit-amount">{data.price} đ</span>
                         </td>
 
                         <td className="product-quantity">
                             <div className="input-counter">
                                 <span 
                                     className="minus-btn"
-                                    onClick={()=>{this.handleSubtractQuantity(data.id)}}
+                                    onClick={()=>{this.handleSubtractQuantity(data)}}
                                 >
                                     <i className="fas fa-minus"></i>
                                 </span>
@@ -77,7 +70,7 @@ class CartProduct extends Component {
                                 />
                                 <span 
                                     className="plus-btn"
-                                    onClick={()=>{this.handleAddQuantity(data.id)}}
+                                    onClick={()=>{this.handleAddQuantity(data)}}
                                 >
                                     <i className="fas fa-plus"></i>
                                 </span>
@@ -85,12 +78,12 @@ class CartProduct extends Component {
                         </td>
 
                         <td className="product-subtotal">
-                            <span className="subtotal-amount">${data.price * data.quantity}</span>
+                            <span className="subtotal-amount">{data.price * data.quantity} đ</span>
 
                             <Link href="#">
                                 <a
                                     className="remove"
-                                    onClick={(e)=>{e.preventDefault();this.handleRemove(data.id)}}
+                                    onClick={(e)=>{e.preventDefault();this.handleRemove(data)}}
                                 >
                                     <i className="far fa-trash-alt"></i>
                                 </a>
@@ -129,4 +122,22 @@ class CartProduct extends Component {
     }
 }
 
-export default CartProduct;
+const mapStateToProps = (state) => {
+    return {
+        products: state.addedItems,
+        total: state.total
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        removeItem: (product) => {dispatch(removeItem(product))},
+        addQuantity: (product) => {dispatch(addQuantity(product))},
+        subtractQuantity: (product) => {dispatch(subtractQuantity(product))}
+    }
+}
+
+export default connect(
+    mapStateToProps, 
+    mapDispatchToProps
+)(CartProduct)

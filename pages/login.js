@@ -5,6 +5,8 @@ import Navbar from '../components/Layout/Navbar';
 import Footer from '../components/Layout/Footer';
 import Facility from '../components/Common/Facility';
 import Breadcrumb from '../components/Common/Breadcrumb';
+import { connect } from 'react-redux';
+import { login } from '../store/actions/sessionActions.js';
 
 class Index extends Component {
     constructor(props) {
@@ -38,7 +40,9 @@ class Index extends Component {
             .then(result => {
                 if(result.data.authenticateUserWithPassword) {
                     console.log('login successfully!')
+                    console.log(result.data.authenticateUserWithPassword.token)
                     localStorage.setItem('token', result.data.authenticateUserWithPassword.token)
+                    localStorage.setItem('user', JSON.stringify(result.data.authenticateUserWithPassword.item))
                     Router.push('/')
                 }
             })
@@ -104,4 +108,13 @@ class Index extends Component {
     }
 }
 
-export default Index;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        login: (user) => {dispatch(login(user))}
+    }
+}
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(Index);

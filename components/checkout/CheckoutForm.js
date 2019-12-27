@@ -1,13 +1,79 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Router from 'next/router';
 import OrderSummary from './OrderSummary';
 import Payment from '../payments/Payment';
 import useForm from './userForm';
 
-function CheckoutForm({total, shipping}) {
+function CheckoutForm({total, shipping, user, products}) {
+
+    function createOrder(item, orderNumber) {
+
+        const date = new Date();
+        let mutation;
+
+        if (!user) {
+            mutation = `
+              mutation {
+                createOrder(data: {
+                  name: "` + state.firstName.value + " " + state.lastName.value + `",
+                  email: "` + state.email.value + `",
+                  orderStatus: "` + "pending" + `",
+                  date: "` + date.toISOString() + `",
+                  totalAmount: "` + total.toString() + `",
+                  itemName: "` + item.title + `",
+                  itemOrder: "` + orderNumber.toString() + `",
+                  quantity: "` + item.quantity + `",
+                  itemCost: "` + item.price + `",
+
+                }) {
+                  id,
+                  email
+                }
+              }
+        `;
+        } else {
+            mutation = `
+              mutation {
+                createOrder(data: {
+                  name: "` + user.name + `",
+                  email: "` + user.email + `",
+                  orderStatus: "` + "pending" + `",
+                  date: "` + date.toISOString() + `",
+                  totalAmount: "` + total.toString() + `",
+                  itemName: "` + item.title + `",
+                  itemOrder: "` + orderNumber.toString() + `",
+                  quantity: "` + item.quantity + `",
+                  itemCost: "` + item.price + `",
+
+                }) {
+                  id,
+                  email
+                }
+              }
+        `;
+        }
+
+        const url = "https://yankeesim-admin.herokuapp.com/admin/api";
+        const opts = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query:mutation })
+        };
+        fetch(url, opts)
+          .then(res => res.json())
+            .then(result => {
+                if(result.data.createOrder) {
+                    console.log('createOrder successfully!')
+                    Router.push('/')
+                }
+            })
+          .catch(console.error);
+    }
 
     function handleSubmit() {
         console.log("Form submitted.");
+        products.forEach((item, idx) => createOrder(item, idx));
     }
 
     let totalAmount = (total + shipping).toFixed(2)
@@ -54,21 +120,6 @@ function CheckoutForm({total, shipping}) {
             }
         },
 
-        state: {
-            required: true,
-            validator: {
-                error: "Invalid last name format."
-            }
-        },
-
-        zip: {
-            required: true,
-            validator: {
-                regEx: /^\d{5}$|^\d{5}-\d{4}$/,
-                error: "Invalid zip format, use like 12345."
-            }
-        },
-
         email: {
             required: true,
             validator: {
@@ -79,10 +130,6 @@ function CheckoutForm({total, shipping}) {
 
         phone: {
             required: true,
-            validator: {
-                regEx: /^\+[0-9]?()[0-9](\s|\S)(\d[0-9]{9})$/,
-                error: "Invalid phone number format use like +2923432432432."
-            }
         }
     };
 
@@ -101,6 +148,7 @@ function CheckoutForm({total, shipping}) {
     return (
         <section className="checkout-area ptb-60">
             <div className="container">
+                { !user && (
                 <div className="row">
                     <div className="col-lg-12 col-md-12">
                         <div className="user-actions">
@@ -109,6 +157,7 @@ function CheckoutForm({total, shipping}) {
                         </div>
                     </div>
                 </div>
+                )}
 
                 <form onSubmit={handleOnSubmit}>
                     <div className="row">
@@ -116,6 +165,7 @@ function CheckoutForm({total, shipping}) {
                             <div className="billing-details">
                                 <h3 className="title">Billing Details</h3>
 
+                                { !user && (
                                 <div className="row">
                                     <div className="col-lg-12 col-md-12">
                                         <div className="form-group">
@@ -125,7 +175,7 @@ function CheckoutForm({total, shipping}) {
                                                     className="form-control"
                                                     name="country"
                                                 >
-                                                    <option value="5">United Arab Emirates</option>
+                                                    <option value="5">Vietnam</option>
                                                     <option value="1">China</option>
                                                     <option value="2">United Kingdom</option>
                                                     <option value="0">Germany</option>
@@ -199,33 +249,6 @@ function CheckoutForm({total, shipping}) {
                                         </div>
                                     </div>
 
-                                    <div className="col-lg-6 col-md-6">
-                                        <div className="form-group">
-                                            <label>State / County <span className="required">*</span></label>
-                                            <input 
-                                                type="text" 
-                                                name="state"
-                                                className="form-control" 
-                                                onChange={handleOnChange}
-                                                value={state.state.value}
-                                            />
-                                            {state.state.error && <p style={errorStyle}>{state.state.error}</p>}
-                                        </div>
-                                    </div>
-
-                                    <div className="col-lg-6 col-md-6">
-                                        <div className="form-group">
-                                            <label>Postcode / Zip <span className="required">*</span></label>
-                                            <input 
-                                                type="text" 
-                                                name="zip"
-                                                className="form-control"
-                                                onChange={handleOnChange}
-                                                value={state.zip.value}
-                                            />
-                                            {state.zip.error && <p style={errorStyle}>{state.zip.error}</p>}
-                                        </div>
-                                    </div>
 
                                     <div className="col-lg-6 col-md-6">
                                         <div className="form-group">
@@ -269,12 +292,14 @@ function CheckoutForm({total, shipping}) {
                                         </div>
                                     </div>
 
-                                    <div className="col-lg-12 col-md-12">
-                                        <div className="form-group">
-                                            <textarea name="notes" id="notes" cols="30" rows="6" placeholder="Order Notes" className="form-control" />
-                                        </div>
+                                </div>
+                                )}
+                                <div className="col-lg-12 col-md-12">
+                                    <div className="form-group">
+                                        <textarea name="notes" id="notes" cols="30" rows="6" placeholder="Order Notes" className="form-control" />
                                     </div>
                                 </div>
+
                             </div>
                         </div>
 
@@ -286,14 +311,8 @@ function CheckoutForm({total, shipping}) {
 
                                 <div className="payment-method">
                                     <p>
-                                        <input type="radio" id="direct-bank-transfer" name="radio-group" defaultChecked={true} />
-                                        <label htmlFor="direct-bank-transfer">Direct Bank Transfer</label>
-
-                                        Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.
-                                    </p>
-                                    <p>
-                                        <input type="radio" id="paypal" name="radio-group" />
-                                        <label htmlFor="paypal">PayPal</label>
+                                        <input type="radio" id="online" name="radio-group" />
+                                        <label htmlFor="online">Online</label>
                                     </p>
                                     <p>
                                         <input type="radio" id="cash-on-delivery" name="radio-group" />
@@ -301,10 +320,10 @@ function CheckoutForm({total, shipping}) {
                                     </p>
                                 </div>
 
-                                <Payment 
-                                    amount={100}
-                                    disabled={disable}
-                                />
+                                <div className="order-btn">
+                                    <input type='submit' disabled={disable} className={`btn btn-primary ${disable ? 'btn-disabled' : ''}`} />
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -314,7 +333,18 @@ function CheckoutForm({total, shipping}) {
     );
 }
 
-export default CheckoutForm;
+const mapStateToProps = (state) => {
+    return {
+        products: state.addedItems,
+        total: state.total,
+        shipping: state.shipping
+    }
+}
+
+export default connect(
+    mapStateToProps
+)(CheckoutForm)
+
 
 
 

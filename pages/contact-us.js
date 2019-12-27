@@ -3,8 +3,51 @@ import Navbar from '../components/Layout/Navbar';
 import Footer from '../components/Layout/Footer';
 import Facility from '../components/Common/Facility';
 import Breadcrumb from '../components/Common/Breadcrumb';
+import Router from 'next/router';
 
 class Index extends Component {
+    constructor (props) {
+        super(props)
+        this.name = React.createRef()
+        this.email = React.createRef()
+        this.phone = React.createRef()
+        this.message = React.createRef()
+    }
+
+    handleSubmit = (e) => {
+        
+        const name = this.name.current.value.toString()
+        const email = this.email.current.value.toString()
+        const phone = this.phone.current.value.toString()
+        const message = this.message.current.value.toString()
+        const date = new Date()
+
+        const mutation = `
+            mutation {
+              createContactForm(data:{body:"` + message + `", email:"` + email + `", tel:"`+ phone +`", posted:"`+ date.toISOString() +`", name:"` + name + `"}) {
+                id
+              }
+            }
+        `;
+
+        const url = "https://yankeesim-admin.herokuapp.com/admin/api";
+        const opts = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query:mutation })
+        };
+        fetch(url, opts)
+          .then(res => res.json())
+            .then(result => {
+                if(result.data.createContactForm) {
+                    Router.push('/')
+                }
+            })
+          .catch(console.error);
+
+        e.preventDefault()
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -23,10 +66,9 @@ class Index extends Component {
                                     <p>Have a question? You may find an answer in our FAQs. But you can also contact us.</p>
 
                                     <ul className="contact-list">
-                                        <li><i className="fas fa-map-marker-alt"></i> Location: 2750 Quadra Street Victoria, Canada</li>
-                                        <li><i className="fas fa-phone"></i> Call Us: <a href="#">(+123) 456-7898</a></li>
-                                        <li><i className="far fa-envelope"></i> Email Us: <a href="#">support@comero.com</a></li>
-                                        <li><i className="fas fa-fax"></i> Fax: <a href="#">+123456</a></li>
+                                        <li><i className="fas fa-map-marker-alt"></i>Lê Lai, Phường 4, Q. Gò Vấp, TP. HCM</li>
+                                        <li><i className="fas fa-phone"></i> Call Us: <a href="#">0972.225.220</a></li>
+                                        <li><i className="far fa-envelope"></i> Email Us: <a href="#">info@yankeesim.com</a></li>
                                     </ul>
 
                                     <h3>Opening Hours:</h3>
@@ -61,7 +103,7 @@ class Index extends Component {
                                             <div className="col-lg-12 col-md-12">
                                                 <div className="form-group">
                                                     <label>Name <span>(required)*</span></label>
-                                                    <input type="text" name="name" id="name" className="form-control" required={true} data-error="Please enter your name" placeholder="Enter your name" />
+                                                    <input type="text" name="name" id="name" className="form-control" ref={this.name} required={true} data-error="Please enter your name" placeholder="Enter your name" />
                                                     <div className="help-block with-errors"></div>
                                                 </div>
                                             </div>
@@ -69,7 +111,7 @@ class Index extends Component {
                                             <div className="col-lg-12 col-md-12">
                                                 <div className="form-group">
                                                     <label>Email <span>(required)*</span></label>
-                                                    <input type="email" name="email" id="email" className="form-control" required={true} data-error="Please enter your email" placeholder="Enter your Email Address" />
+                                                    <input type="email" name="email" id="email" className="form-control" ref={this.email} required={true} data-error="Please enter your email" placeholder="Enter your Email Address" />
                                                     <div className="help-block with-errors"></div>
                                                 </div>
                                             </div>
@@ -77,7 +119,7 @@ class Index extends Component {
                                             <div className="col-lg-12 col-md-12">
                                                 <div className="form-group">
                                                     <label>Phone Number <span>(required)*</span></label>
-                                                    <input type="text" name="phone_number" id="phone_number" className="form-control" required={true} data-error="Please enter your phone number" placeholder="Enter your Phone Number" />
+                                                    <input type="text" name="phone_number" id="phone_number" className="form-control" ref={this.phone} required={true} data-error="Please enter your phone number" placeholder="Enter your Phone Number" />
                                                     <div className="help-block with-errors"></div>
                                                 </div>
                                             </div>
@@ -85,13 +127,13 @@ class Index extends Component {
                                             <div className="col-lg-12 col-md-12">
                                                 <div className="form-group">
                                                     <label>Your Message <span>(required)*</span></label>
-                                                    <textarea name="message" id="message" cols="30" rows="8" required={true} data-error="Please enter your message" className="form-control" placeholder="Enter your Message" />
+                                                    <textarea name="message" id="message" cols="30" rows="8" ref={this.message} required={true} data-error="Please enter your message" className="form-control" placeholder="Enter your Message" />
                                                     <div className="help-block with-errors"></div>
                                                 </div>
                                             </div>
 
                                             <div className="col-lg-12 col-md-12">
-                                                <button type="submit" className="btn btn-primary">Send Message</button>
+                                                <button type="submit" className="btn btn-primary" onClick={this.handleSubmit}>Send Message</button>
                                                 <div id="msgSubmit" className="h3 text-center hidden"></div>
                                                 <div className="clearfix"></div>
                                             </div>

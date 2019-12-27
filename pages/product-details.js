@@ -14,9 +14,11 @@ class Index extends Component {
             return { query, params }
     }
 
-    state = { product : {}, reviews: [] }
+    state = { product : {}, reviews: [], user: {} }
 
     componentDidMount () {
+        this.setState({ user: JSON.parse(localStorage.getItem('user')) })
+
         const query = `
             query {
               Product(where: {id: "`+ this.props.query.id + `"}) {
@@ -58,7 +60,7 @@ class Index extends Component {
 
 
     render() {
-        const { product, reviews } = this.state;
+        const { product, reviews, user } = this.state;
         return (
             <React.Fragment>
                 <Navbar />
@@ -69,7 +71,7 @@ class Index extends Component {
                         <div className="row">
                             <ProductImage src={product.image}/>
                             <ProductContent product={product} reviews={reviews}/>
-                            <DetailsTab product={product} reviews={reviews}/>
+                            <DetailsTab product={product} reviews={reviews} user={user} />
                         </div>
                     </div>
 

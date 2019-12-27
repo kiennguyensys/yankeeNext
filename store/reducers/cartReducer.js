@@ -1,6 +1,7 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunkMiddleware from 'redux-thunk';
+import { sessionReducer } from './sessionReducer.js';
 
 import { 
     ADD_TO_CART,
@@ -151,12 +152,13 @@ const initState = {
     shipping: 0
 }
 
-const cartReducer = (state = initState, action) => {
+export const cartReducer = (state = initState, action) => {
    
     if(action.type === ADD_TO_CART){
-        let addedItem = state.products.find(item => item.id === action.id)
+        let addedItem = action.product
+
         //check if the action id exists in the addedItems
-        let existed_item= state.addedItems.find(item=> action.id === item.id)
+        let existed_item= state.addedItems.find(item=> action.product.id === item.id)
         if(existed_item){
             addedItem.quantity += 1 
             return {
@@ -178,7 +180,7 @@ const cartReducer = (state = initState, action) => {
     }
 
     if(action.type === ADD_TO_COMPARE){
-        let addedItemToCompare = state.products.find(item => item.id === action.id)
+        let addedItemToCompare = action.product
         
         addedItemToCompare.quantity = 1;
         
@@ -189,9 +191,9 @@ const cartReducer = (state = initState, action) => {
     }
 
     if(action.type === ADD_QUANTITY_WITH_NUMBER){
-        let addedItem = state.products.find(item => item.id === action.id)
+        let addedItem = action.product
         //check if the action id exists in the addedItems
-        let existed_item = state.addedItems.find(item=> action.id === item.id)
+        let existed_item = state.addedItems.find(item=> action.product.id === item.id)
         if(existed_item)
         {
             addedItem.quantity += action.qty
@@ -215,8 +217,8 @@ const cartReducer = (state = initState, action) => {
     
 
     if(action.type === REMOVE_ITEM){
-        let itemToRemove = state.addedItems.find(item=> action.id === item.id)
-        let new_items = state.addedItems.filter(item=> action.id !== item.id)
+        let itemToRemove = action.product
+        let new_items = state.addedItems.filter(item=> action.product.id !== item.id)
         
         //calculating the total
         let newTotal = state.total - (itemToRemove.price * itemToRemove.quantity );
@@ -229,7 +231,7 @@ const cartReducer = (state = initState, action) => {
     }
 
     if(action.type === REMOVE_ITEM_FROM_COMPARE){
-        let new_items = state.addedItemsToCompare.filter(item=> action.id !== item.id)
+        let new_items = state.addedItemsToCompare.filter(item=> action.product.id !== item.id)
         
         return {
             ...state,
@@ -238,7 +240,7 @@ const cartReducer = (state = initState, action) => {
     }
 
     if(action.type === ADD_QUANTITY){
-        let addedItem = state.products.find(item=> item.id === action.id)
+        let addedItem = action.product
         addedItem.quantity += 1 
         let newTotal = state.total + addedItem.price
         return {
@@ -248,10 +250,10 @@ const cartReducer = (state = initState, action) => {
     }
 
     if(action.type === SUB_QUANTITY){  
-        let addedItem = state.products.find(item=> item.id === action.id) 
+        let addedItem = action.product
         //if the qt == 0 then it should be removed
         if(addedItem.quantity === 1){
-            let new_items = state.addedItems.filter(item=>item.id !== action.id)
+            let new_items = state.addedItems.filter(item=>item.id !== action.product.id)
             let newTotal = state.total - addedItem.price
             return {
                 ...state,

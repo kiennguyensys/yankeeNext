@@ -17,7 +17,7 @@ class ProductContent extends Component {
     };
 
     handleAddToCartFromView = () => {
-        //this.props.addQuantityWithNumber(8, this.state.qty); 
+        this.props.addQuantityWithNumber(this.props.product, this.state.qty); 
 
         toast.success('Added to the cart', {
             position: "bottom-left",
@@ -80,7 +80,7 @@ class ProductContent extends Component {
                         <h3>{product.title}</h3>
 
                         <div className="price">
-                            <span className="new-price">${product.price}</span>
+                            <span className="new-price">{product.price} đ</span>
                         </div>
 
                         <div className="product-review">
@@ -208,6 +208,16 @@ class ProductContent extends Component {
     }
 }
 
-export default ProductContent;
+const mapDispatchToProps= (dispatch)=>{
+    return {
+        addQuantityWithNumber: (product, qty) => {dispatch(addQuantityWithNumber(product, qty))}
+    }
+}
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(ProductContent)
+
 
 

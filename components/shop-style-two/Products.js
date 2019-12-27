@@ -47,11 +47,12 @@ class Products extends Component {
         idd: null,
         display: false,
         panel: true,
-        products: undefined
+        products: undefined,
+        modalProduct: {}
     };
 
-    handleAddToCart = (id) => {
-        //this.props.addToCart(id); 
+    handleAddToCart = (product) => {
+        this.props.addToCart(product); 
 
         toast.success('Added to the cart', {
             position: "bottom-left",
@@ -138,13 +139,12 @@ class Products extends Component {
         this.setState({ modalOpen: false });
     }
 
-    handleModalData = (image, price, id) => {
-        this.setState({ 
-            modalImage: image, 
-            price: price,
-            idd: id
+    handleModalData = (product) => {
+        this.setState({
+            modalProduct: product,
         });
     }
+
 
     render() {
         let { products } = this.state;
@@ -200,10 +200,13 @@ class Products extends Component {
                                                 <div className="col-lg-12 col-md-12" key={idx}>
                                                     <div className="single-product-box">
                                                         <div className="product-image">
-                                                            <a href="#">
-                                                                <img src={data.image} alt="image" />
-                                                                <img src={data.imageHover} alt="image" />
-                                                            </a>
+                                                            <Link href={"/product-details?id=" + data.id}>
+                                                                <a>
+                                                                    <img src={data.image} alt="image" />
+                                                                    <img src={data.imageHover} alt="image" />
+                                                                </a>
+                                                            </Link>
+
 
                                                             <ul>
                                                                 <li>
@@ -214,7 +217,7 @@ class Products extends Component {
                                                                             onClick={e => {
                                                                                     e.preventDefault(); 
                                                                                     this.openModal();
-                                                                                    this.handleModalData(data.quickView,data.price,data.id)
+                                                                                    this.handleModalData(data)
                                                                                 }
                                                                             }
                                                                         >
@@ -243,7 +246,7 @@ class Products extends Component {
                                                             <h3><a href="#">{data.title}</a></h3>
 
                                                             <div className="product-price">
-                                                                <span className="new-price">${data.price}</span>
+                                                                <span className="new-price">{data.price} đ</span>
                                                             </div>
 
                                                             <div className="rating">
@@ -258,7 +261,7 @@ class Products extends Component {
                                                                 <a 
                                                                     className="btn btn-light"
                                                                     onClick={(e) => {
-                                                                        e.preventDefault(); this.handleAddToCart(data.id)
+                                                                        e.preventDefault(); this.handleAddToCart(data)
                                                                     }}
                                                                 >
                                                                     Add to Cart
@@ -282,10 +285,12 @@ class Products extends Component {
                                                 <div className="col-lg-12 col-md-12" key={idx}>
                                                     <div className="single-product-box">
                                                         <div className="product-image">
-                                                            <a href="#">
-                                                                <img src={data.image} alt="image" />
-                                                                <img src={data.imageHover} alt="image" />
-                                                            </a>
+                                                            <Link href={"/product-details?id=" + data.id}>
+                                                                <a>
+                                                                    <img src={data.image} alt="image" />
+                                                                    <img src={data.imageHover} alt="image" />
+                                                                </a>
+                                                            </Link>
 
                                                             <ul>
                                                                 <li>
@@ -296,7 +301,7 @@ class Products extends Component {
                                                                             onClick={e => {
                                                                                     e.preventDefault(); 
                                                                                     this.openModal();
-                                                                                    this.handleModalData(data.quickView,data.price,data.id)
+                                                                                    this.handleModalData(data)
                                                                                 }
                                                                             }
                                                                         >
@@ -325,7 +330,7 @@ class Products extends Component {
                                                             <h3><a href="#">{data.title}</a></h3>
 
                                                             <div className="product-price">
-                                                                <span className="new-price">${data.price}</span>
+                                                                <span className="new-price">{data.price} đ</span>
                                                             </div>
 
                                                             <div className="rating">
@@ -340,7 +345,7 @@ class Products extends Component {
                                                                 <a 
                                                                     className="btn btn-light"
                                                                     onClick={(e) => {
-                                                                        e.preventDefault(); this.handleAddToCart(data.id)
+                                                                        e.preventDefault(); this.handleAddToCart(data)
                                                                     }}
                                                                 >
                                                                     Add to Cart
@@ -365,10 +370,13 @@ class Products extends Component {
                                                 <div className="col-lg-12 col-md-12" key={idx}>
                                                     <div className="single-product-box">
                                                         <div className="product-image">
-                                                            <a href="#">
-                                                                <img src={data.image} alt="image" />
-                                                                <img src={data.imageHover} alt="image" />
-                                                            </a>
+                                                            <Link href={"/product-details?id=" + data.id}>
+                                                                <a>
+                                                                    <img src={data.image} alt="image" />
+                                                                    <img src={data.imageHover} alt="image" />
+                                                                </a>
+                                                            </Link>
+
 
                                                             <ul>
                                                                 <li>
@@ -379,7 +387,7 @@ class Products extends Component {
                                                                             onClick={e => {
                                                                                     e.preventDefault(); 
                                                                                     this.openModal();
-                                                                                    this.handleModalData(data.quickView,data.price,data.id)
+                                                                                    this.handleModalData(data)
                                                                                 }
                                                                             }
                                                                         >
@@ -408,7 +416,7 @@ class Products extends Component {
                                                             <h3><a href="#">{data.title}</a></h3>
 
                                                             <div className="product-price">
-                                                                <span className="new-price">${data.price}</span>
+                                                                <span className="new-price">{data.price} đ</span>
                                                             </div>
 
                                                             <div className="rating">
@@ -423,7 +431,7 @@ class Products extends Component {
                                                                 <a 
                                                                     className="btn btn-light"
                                                                     onClick={(e) => {
-                                                                        e.preventDefault(); this.handleAddToCart(data.id)
+                                                                        e.preventDefault(); this.handleAddToCart(data)
                                                                     }}
                                                                 >
                                                                     Add to Cart
@@ -444,12 +452,21 @@ class Products extends Component {
                 { modalOpen ? <QuickView 
                     closeModal={this.closeModal} 
                     idd={this.state.idd}
-                    image={this.state.modalImage} 
-                    price={this.state.price}
+                    product={this.state.modalProduct}
                 /> : '' }
             </section>
         );
     }
 }
 
-export default Products
+const mapDispatchToProps= (dispatch) => {
+    return {
+        addToCart: (product) => { dispatch(addToCart(product)) }
+    }
+}
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(Products)
+

@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "node server.js -p $PORT",
     "build": "next build",
+    "export": "next export",
+    "deploy": "npm run build && npm run export",
     "start": "NODE_ENV=production node server.js -p $PORT",
     "heroku-postbuild": "npm run build"
   },

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 
 export class BlogGrid extends Component {
-    state = {blogs: []}
+    state = { blogs: [] }
     componentDidMount () {
         const query = `
             query {
@@ -52,6 +52,7 @@ export class BlogGrid extends Component {
 
                                 <div className="blog-post-content">
                             <span className="date">{data.posted.split('T')[0]}</span>
+
                             <h3><a href="#">{data.title}</a></h3>
                                     <span dangerouslySetInnerHTML={{__html: data.brief_description}} />
                                     <a href="#" className="read-more-btn">Read More <i className="icofont-double-right"></i></a>

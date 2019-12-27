@@ -72,8 +72,8 @@ class ProductsCard extends PureComponent {
           .catch(console.error);
     }
 
-    handleAddToCart = (id) => {
-        //this.props.addToCart(id); 
+    handleAddToCart = (product) => {
+        this.props.addToCart(product); 
 
         toast.success('Added to the cart', {
             position: "bottom-left",
@@ -154,7 +154,7 @@ class ProductsCard extends PureComponent {
                                 <h3><a href="#">{data.title}</a></h3>
 
                                 <div className="product-price">
-                                    <span className="new-price">${data.price}</span>
+                                    <span className="new-price">{data.price} đ</span>
                                 </div>
 
                                 <div className="rating">
@@ -169,7 +169,7 @@ class ProductsCard extends PureComponent {
                                     <a 
                                         className="btn btn-light"
                                         onClick={(e) => {
-                                            e.preventDefault(); this.handleAddToCart(data.id)
+                                            e.preventDefault(); this.handleAddToCart(data)
                                         }}
                                     >
                                         Add to Cart
@@ -189,7 +189,15 @@ class ProductsCard extends PureComponent {
     }
 }
 
+const mapDispatchToProps= (dispatch) => {
+    return {
+        addToCart: (product) => { dispatch(addToCart(product)) }
+    }
+}
 
-export default ProductsCard;
+export default connect(
+    null,
+    mapDispatchToProps
+)(ProductsCard)
 
 

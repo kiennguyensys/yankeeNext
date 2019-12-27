@@ -9,6 +9,9 @@ import Feature from '../components/Common/Feature';
 import Testimonials from '../components/Common/Testimonials';
 import News from '../components/Common/News';
 import Partner from '../components/Common/Partner';
+import { login, logout } from '../store/actions/sessionActions.js';
+import { connect } from 'react-redux';
+
 
 import Footer from '../components/Layout/Footer';
 
@@ -27,7 +30,6 @@ class Index extends Component {
 
                 <ProductRow category="sim-chau-a" title="Sim Châu Á"/>
                 <ProductRow category="sim-chau-uc" title="Sim Châu Úc"/>
-
 
                 <Facility />
                 <Testimonials />

@@ -1,4 +1,4 @@
-import { 
+import {
     ADD_TO_CART,
     REMOVE_ITEM,
     SUB_QUANTITY,
@@ -10,39 +10,39 @@ import {
 } from './action-types/cart-actions'
 
 //add cart action
-export const addToCart = (id) => {
+export const addToCart = (product) => {
     return {
         type: ADD_TO_CART,
-        id
+        product
     }
 }
 //remove item action
-export const removeItem = (id) => {
+export const removeItem = (product) => {
     return {
         type: REMOVE_ITEM,
-        id
+        product
     }
 }
 //subtract qt action
-export const subtractQuantity = (id) => {
+export const subtractQuantity = (product) => {
     return {
         type: SUB_QUANTITY,
-        id
+        product
     }
 }
 //add qt action
-export const addQuantity = (id) => {
+export const addQuantity = (product) => {
     return {
         type: ADD_QUANTITY,
-        id
+        product
     }
 }
 
 //add qt action with quantity number
-export const addQuantityWithNumber = (id, qty) => {
+export const addQuantityWithNumber = (product, qty) => {
     return {
         type: ADD_QUANTITY_WITH_NUMBER,
-        id,
+        product,
         qty
     }
 }
@@ -55,16 +55,16 @@ export const resetCart = () => {
 }
 
 //add compare action
-export const addToCompare = (id) => {
+export const addToCompare = (product) => {
     return {
         type: ADD_TO_COMPARE,
-        id
+        product
     }
 }
 //remove item from compare action
-export const removeItemFromCompare = (id) => {
+export const removeItemFromCompare = (product) => {
     return {
         type: REMOVE_ITEM_FROM_COMPARE,
-        id
+        product
     }
 }

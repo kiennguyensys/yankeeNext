@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Router from 'next/router';
 
 export class DetailsContent extends Component {
+    constructor(props) {
+        super(props);
+        this.comment = React.createRef();
+    }
 
-    state = {blog: {}, comments: []}
+
+    state = {blog: {}, comments: [], user: {}}
 
     componentDidMount () {
+        this.setState({user: JSON.parse(localStorage.getItem('user'))})
 
         const query = `
             query {
@@ -42,6 +50,37 @@ export class DetailsContent extends Component {
             })
           .catch(console.error);
         
+    }
+
+    handleSubmit = (e) => {
+        const content = this.comment.current.value.toString()
+        const date = new Date()
+
+        const mutation = `
+            mutation {
+              createPostComment(data:{body: "` + content + `", originalPost:{connect: { id: "` + this.state.blog.id.toString() + `"}}, author:{connect: { id: "`+ this.state.user.id +`"}}, posted:"`+ date.toISOString() +`"}) {
+                id,
+                body
+              }
+            }
+        `;
+
+        const url = "https://yankeesim-admin.herokuapp.com/admin/api";
+        const opts = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query:mutation })
+        };
+        fetch(url, opts)
+          .then(res => res.json())
+            .then(result => {
+                if(result.data.createPostComment) {
+                    Router.push('/blog')
+                }
+            })
+          .catch(console.error);
+
+        e.preventDefault()
     }
 
     render() {
@@ -112,71 +151,37 @@ export class DetailsContent extends Component {
                    
                                         ))} 
 
-                                        <ol className="children">
-                                            <li className="comment">
-                                                <article className="comment-body">
-                                                    <footer className="comment-meta">
-                                                        <div className="comment-author vcard">
-                                                            <img src={require("../../images/author2.jpg")} className="avatar" alt="image" />
-                                                            <b className="fn">Admin</b>
-                                                            <span className="says">says:</span>
-                                                        </div>
-            
-                                                        <div className="comment-metadata">
-                                                            <a href="#">
-                                                                <time>April 24, 2019 at 10:59 am</time>
-                                                            </a>
-                                                        </div>
-                                                    </footer>
-            
-                                                    <div className="comment-content">
-                                                        <p>Ok</p>
-                                                    </div>
-            
-                                                    <div className="reply">
-                                                        <a href="#" className="comment-reply-link">Reply</a>
-                                                    </div>
-                                                </article>
-                                            </li>
-
-                                        </ol>
                                     </li>
 
                                 </ol>
 
                                 <div className="comment-respond">
                                     <h3 className="comment-reply-title">Leave a Reply</h3>
-
-                                    <form className="comment-form">
-                                        <p className="comment-notes">
-                                            <span id="email-notes">Your email address will not be published.</span>
-                                            Required fields are marked 
-                                            <span className="required">*</span>
-                                        </p>
-                                        <p className="comment-form-comment">
-                                            <label for="comment">Comment</label>
-                                            <textarea name="comment" id="comment" cols="45" rows="5" maxlength="65525" required={true} />
-                                        </p>
-                                        <p className="comment-form-author">
-                                            <label for="name">Name <span className="required">*</span></label>
-                                            <input type="text" id="author" name="author" required={true} />
-                                        </p>
-                                        <p className="comment-form-email">
-                                            <label for="email">Email <span className="required">*</span></label>
-                                            <input type="email" id="email" name="email" required={true} />
-                                        </p>
-                                        <p className="comment-form-url">
-                                            <label for="url">Website</label>
-                                            <input type="url" id="url" name="url" />
-                                        </p>
-                                        <p className="comment-form-cookies-consent">
-                                            <input type="checkbox" value="yes" name="wp-comment-cookies-consent" id="wp-comment-cookies-consent" />
-                                            <label for="wp-comment-cookies-consent">Save my name, email, and website in this browser for the next time I comment.</label>
-                                        </p>
-                                        <p className="form-submit">
-                                            <input type="submit" name="submit" id="submit" className="submit" value="Post Comment" />
-                                        </p>
-                                    </form>
+                                    {
+                                        this.state.user ?
+                                        (
+                                            <form className="comment-form">
+                                                <p className="comment-notes">
+                                                    <span id="email-notes">Your email address will not be published.</span>
+                                                    Required fields are marked 
+                                                    <span className="required">*</span>
+                                                </p>
+                                                <p className="comment-form-comment">
+                                                    <label for="comment">Comment</label>
+                                                    <textarea name="comment" ref={this.comment} cols="45" rows="5" maxlength="65525" required={true} />
+                                                </p>
+                                                <p className="form-submit">
+                                                    <button className="btn btn-primary" onClick={this.handleSubmit}>Post Comment</button>
+                                                </p>
+                                            </form>
+                                        ) :
+                                        (
+                                            <p className="comment-notes">
+                                                <span id="email-notes">Login is required to comment</span>
+                                                <span className="required">*</span>
+                                            </p>
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>
