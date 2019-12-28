@@ -26,10 +26,10 @@ class Footer extends Component {
                                 <h3>Quick Links</h3>
 
                                 <ul className="quick-links">
-                                    <li><a href="#">About Us</a></li>
-                                    <li><a href="/faq">FAQ's</a></li>
+                                    <li><Link href="/about">About Us</Link></li>
+                                    <li><Link href="/faq">FAQ's</Link></li>
                                     <li><a href="#">Customer Services</a></li>
-                                    <li><a href="#">Contact Us</a></li>
+                                    <li><Link href="/contact-us">Contact Us</Link></li>
                                 </ul>
                             </div>
                         </div>
@@ -39,9 +39,8 @@ class Footer extends Component {
                                 <h3>Information</h3>
 
                                 <ul className="information-links">
-                                    <li><a href="#">About Us</a></li>
-                                    <li><a href="#">Contact Us</a></li>
-                                    <li><a href="#">Sizing Guide</a></li>
+                                    <li><Link href="/about">About Us</Link></li>
+                                    <li><Link href="/contact-us">Contact Us</Link></li>
                                     <li><a href="#">Customer Services</a></li>
                                 </ul>
                             </div>

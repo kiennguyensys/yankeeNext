@@ -140,94 +140,6 @@ class MegaMenu extends Component {
 
 
 
-                                    <li className="nav-item p-relative">
-                                        <Link href="#">
-                                            <a className="nav-link">
-                                                Pages <i className="fas fa-chevron-down"></i>
-                                            </a>
-                                        </Link>
-
-                                        <ul className="dropdown-menu">
-                                            <li className="nav-item">
-                                                <Link href="/about">
-                                                    <a className="nav-link">About Us</a>
-                                                </Link>
-                                            </li>
-
-                                            <li className="nav-item">
-                                                <Link href="/sizing-guide">
-                                                    <a className="nav-link">Sizing Guide</a>
-                                                </Link>
-                                            </li>
-
-                                            <li className="nav-item">
-                                                <Link href="/gallery">
-                                                    <a className="nav-link">Gallery</a>
-                                                </Link>
-                                            </li>
-
-                                            <li className="nav-item">
-                                                <Link href="/account">
-                                                    <a className="nav-link">Account</a>
-                                                </Link>
-
-                                            </li>
-
-                                            <li className="nav-item">
-                                                <Link href="/cart">
-                                                    <a className="nav-link">Cart</a>
-                                                </Link>
-                                            </li>
-
-                                            <li className="nav-item">
-                                                <Link href="/checkout">
-                                                    <a className="nav-link">Checkout</a>
-                                                </Link>
-                                            </li>
-
-                                            <li className="nav-item">
-                                                <Link href="/compare">
-                                                    <a className="nav-link">Compare</a>
-                                                </Link>
-                                            </li>
-
-                                            <li className="nav-item">
-                                                <Link href="/customer-service">
-                                                    <a className="nav-link">Customer Service</a>
-                                                </Link>
-                                            </li>
-
-                                            <li className="nav-item">
-                                                <Link href="/login">
-                                                    <a className="nav-link">Login</a>
-                                                </Link>
-                                            </li>
-
-                                            <li className="nav-item">
-                                                <Link href="/signup">
-                                                    <a className="nav-link">Signup</a>
-                                                </Link>
-                                            </li>
-
-                                            <li className="nav-item">
-                                                <Link href="/faq">
-                                                    <a className="nav-link">FAQs</a>
-                                                </Link>
-                                            </li>
-
-                                            <li className="nav-item">
-                                                <Link href="/error">
-                                                    <a className="nav-link">Error 404</a>
-                                                </Link>
-                                            </li>
-
-                                            <li className="nav-item">
-                                                <Link href="/contact-us">
-                                                    <a className="nav-link">Contact Us</a>
-                                                </Link>
-                                            </li>
-                                        </ul>
-                                    </li>
 
                                     <li className="nav-item p-relative">
                                         <Link href="#">
@@ -285,7 +197,7 @@ class MegaMenu extends Component {
                                         </div>
                                     ) : (
                                         <div className="option-item">
-                                            <Link href="/">
+                                            <Link href="/account">
                                                 <a>{user.name}</a>
                                             </Link>
                                         </div>

@@ -25,7 +25,38 @@ class Index extends Component {
     componentDidMount () {
         const user = JSON.parse(localStorage.getItem('user'))
 
-        if(user) this.setState({ user: user })
+        if(user) {
+            const query = `
+                    query {
+                      User(where: {id:` + user.id + `}){
+                        id,
+                        name,
+                        email,
+                        username,
+                        phone,
+                        address,
+                        company,
+                        city,
+                        countryCode
+                      }
+                    }
+                `;
+
+
+            const url = "https://yankeesim-admin.herokuapp.com/admin/api";
+            const opts = {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query })
+            };
+            fetch(url, opts)
+              .then(res => res.json())
+                .then(result => {
+                    console.log(result)
+                    this.setState({user: result.data.User})
+                })
+              .catch(console.error);
+        }
         else Router.push('/login')
     }
 
@@ -91,47 +122,47 @@ class Index extends Component {
                             <div className="signup-form">
                                 <div className="form-group">
                                     <label>First Name</label>
-                                    <input type="text" className="form-control" placeholder="Enter your name" ref={this.fname} name="fname" />
+                                    <input type="text" className="form-control" placeholder={"Enter your first name"} ref={this.fname} name="fname" />
                                 </div>
 
                                 <div className="form-group">
                                     <label>Last Name</label>
-                                    <input type="text" className="form-control" placeholder="Enter your name" ref={this.lname} name="lname" />
+                                    <input type="text" className="form-control" placeholder="Enter your last name" ref={this.lname} name="lname" />
                                 </div>
 
                                 <div className="form-group">
                                     <label>Email</label>
-                                    <input type="email" className="form-control" placeholder="Enter your email" ref={this.email} name="name" />
+                                    <input type="email" className="form-control" placeholder={this.state.user.email || "Enter your email"} ref={this.email} name="name" />
                                 </div>
 
                                 <div className="form-group">
                                     <label>Username</label>
-                                    <input type="text" className="form-control" placeholder="Enter your username" ref={this.username} name="username" />
+                                    <input type="text" className="form-control" placeholder={this.state.user.username || "Enter your username"} ref={this.username} name="username" />
                                 </div>
 
                                 <div className="form-group">
                                     <label>Phone</label>
-                                    <input type="text" className="form-control" placeholder="Enter your phone" ref={this.phone} name="phone" />
+                                    <input type="text" className="form-control" placeholder={this.state.user.phone || "Enter your phone"} ref={this.phone} name="phone" />
                                 </div>
 
                                 <div className="form-group">
                                     <label>Company</label>
-                                    <input type="text" className="form-control" placeholder="Enter your company" ref={this.company} name="company" />
+                                    <input type="text" className="form-control" placeholder={this.state.user.phone || "Enter your company"} ref={this.company} name="company" />
                                 </div>
 
                                 <div className="form-group">
                                     <label>Address</label>
-                                    <input type="text" className="form-control" placeholder="Enter your address" ref={this.address} name="address" />
+                                    <input type="text" className="form-control" placeholder={this.state.user.address || "Enter your address"} ref={this.address} name="address" />
                                 </div>
 
                                 <div className="form-group">
                                     <label>City</label>
-                                    <input type="text" className="form-control" placeholder="Enter your city" ref={this.city} name="city" />
+                                    <input type="text" className="form-control" placeholder={this.state.user.city || "Enter your city"} ref={this.city} name="city" />
                                 </div>
 
                                 <div className="form-group">
                                     <label>Country Code</label>
-                                    <input type="text" className="form-control" placeholder="Enter your country code" ref={this.countryCode} name="countryCode" />
+                                    <input type="text" className="form-control" placeholder={this.state.user.countryCode || "Enter your country code"} ref={this.countryCode} name="countryCode" />
                                 </div>
 
                                 <button type="submit" className="btn btn-primary" onClick={this.updateSubmit}>Update</button>

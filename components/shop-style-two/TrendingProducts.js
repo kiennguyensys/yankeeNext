@@ -114,7 +114,7 @@ class TrendingProducts extends Component {
                 <ToastContainer transition={Slide} />
                 <div className="container">
                     <div className="section-title without-bg">
-                        <h2>{this.props.title}</h2>
+                        <h2><span className="dot"></span> {this.props.title}</h2>
                     </div>
 
                     <div className="row">
