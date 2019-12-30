@@ -26,7 +26,14 @@ class Index extends Component {
                   password: "` + this.password.current.value + `"
                 }) {
                   id,
-                  name
+                  name,
+                  username,
+                  email,
+                  phone,
+                  company,
+                  address,
+                  city,
+                  countryCode
                 }
               }
         `;
@@ -42,40 +49,6 @@ class Index extends Component {
             .then(result => {
                 if(result.data.createUser) {
                     console.log('signup successfully!')
-                    Router.push('/')
-                }
-            })
-          .catch(console.error);
-
-        e.preventDefault()
-    }
-
-    login = (e) => {
-
-        const mutation = `
-            mutation {
-              authenticateUserWithPassword(email: "` + this.email.current.value.toString() + `", password: "` + this.password.current.value.toString() + `") {
-                token,
-                item {
-                    id,
-                    name
-                }
-              }
-            }
-        `;
-
-        const url = "https://yankeesim-admin.herokuapp.com/admin/api";
-        const opts = {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ query:mutation })
-        };
-        fetch(url, opts)
-          .then(res => res.json())
-            .then(result => {
-                if(result.data.authenticateUserWithPassword) {
-                    console.log('login successfully!')
-                    localStorage.setItem('token', result.data.authenticateUserWithPassword.token)
                     Router.push('/')
                 }
             })

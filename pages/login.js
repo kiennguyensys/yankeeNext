@@ -23,7 +23,14 @@ class Index extends Component {
                 token,
                 item {
                     id,
-                    name
+                    name,
+                    email,
+                    username,
+                    phone,
+                    company,
+                    address,
+                    city,
+                    countryCode
                 }
               }
             }

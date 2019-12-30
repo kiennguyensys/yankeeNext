@@ -4,13 +4,15 @@ import Router from 'next/router';
 import OrderSummary from './OrderSummary';
 import Payment from '../payments/Payment';
 import useForm from './userForm';
+import { resetCart } from '../../store/actions/cartActions.js';
 
-function CheckoutForm({total, shipping, user, products}) {
+function CheckoutForm({total, shipping, user, products, resetCart}) {
 
-    function createOrder(item, orderNumber) {
+    function createOrder(item, itemOrder, orderNumber) {
 
         const date = new Date();
         let mutation;
+
 
         if (!user) {
             mutation = `
@@ -18,11 +20,19 @@ function CheckoutForm({total, shipping, user, products}) {
                 createOrder(data: {
                   name: "` + state.firstName.value + " " + state.lastName.value + `",
                   email: "` + state.email.value + `",
+                  city: "` + state.city.value + `",
+                  phone: "` + state.phone.value + `",
+                  address: "` + state.address.value + `",
+                  company: "` + state.company.value + `",
+                  countryCode: "` + state.country.value + `",
                   orderStatus: "` + "pending" + `",
+                  orderNotes: "` + state.orderNotes.value + `",
                   date: "` + date.toISOString() + `",
                   totalAmount: "` + total.toString() + `",
+                  SKU: "` + item.SKU + `",
                   itemName: "` + item.title + `",
-                  itemOrder: "` + orderNumber.toString() + `",
+                  itemOrder: "` + itemOrder.toString() + `",
+                  orderNumber: "` + orderNumber.toString() + `",
                   quantity: "` + item.quantity + `",
                   itemCost: "` + item.price + `",
 
@@ -38,11 +48,19 @@ function CheckoutForm({total, shipping, user, products}) {
                 createOrder(data: {
                   name: "` + user.name + `",
                   email: "` + user.email + `",
+                  city: "` + user.city + `",
+                  phone: "` + user.phone + `",
+                  address: "` + user.address + `",
+                  company: "` + user.company + `",
+                  countryCode: "` + user.countryCode + `",
                   orderStatus: "` + "pending" + `",
+                  orderNotes: "` + state.orderNotes.value + `",
                   date: "` + date.toISOString() + `",
                   totalAmount: "` + total.toString() + `",
                   itemName: "` + item.title + `",
-                  itemOrder: "` + orderNumber.toString() + `",
+                  SKU: "` + item.SKU + `",
+                  itemOrder: "` + itemOrder.toString() + `",
+                  orderNumber: "` + orderNumber.toString() + `",
                   quantity: "` + item.quantity + `",
                   itemCost: "` + item.price + `",
 
@@ -53,6 +71,7 @@ function CheckoutForm({total, shipping, user, products}) {
               }
         `;
         }
+
 
         const url = "https://yankeesim-admin.herokuapp.com/admin/api";
         const opts = {
@@ -65,6 +84,7 @@ function CheckoutForm({total, shipping, user, products}) {
             .then(result => {
                 if(result.data.createOrder) {
                     console.log('createOrder successfully!')
+                    resetCart()
                     Router.push('/')
                 }
             })
@@ -73,7 +93,31 @@ function CheckoutForm({total, shipping, user, products}) {
 
     function handleSubmit() {
         console.log("Form submitted.");
-        products.forEach((item, idx) => createOrder(item, idx));
+
+        const query = `
+                query {
+                    _allOrdersMeta {
+                      count
+                    }
+                }
+            `;
+
+
+        const url = "https://yankeesim-admin.herokuapp.com/admin/api";
+        const opts = {
+          method: "POST",
+          headers: { "Content-Type": "application/json"},
+          body: JSON.stringify({ query })
+        };
+        fetch(url, opts)
+          .then(res => res.json())
+            .then(result => {
+                const orderNumber = parseInt(result.data._allOrdersMeta.count) + 1
+
+                products.forEach((item, idx) => createOrder(item, idx, orderNumber));
+            })
+          .catch(console.error);
+
     }
 
     let totalAmount = (total + shipping).toFixed(2)
@@ -83,10 +127,12 @@ function CheckoutForm({total, shipping, user, products}) {
         lastName: {value: "", error: ""},
         address: {value: "", error: ""},
         city: {value: "", error: ""},
-        state: {value: "", error: ""},
-        zip: {value: "", error: ""},
+        country: {value: "", error: ""},
+        company: {value: "", error: ""},
+        payment: {value: "", error: ""},
         email: {value: "", error: ""},
-        phone: {value: "", error: ""}
+        phone: {value: "", error: ""},
+        orderNotes: {value: "", error: ""}
     };
 
     const validationStateSchema = {
@@ -130,7 +176,25 @@ function CheckoutForm({total, shipping, user, products}) {
 
         phone: {
             required: true,
+        },
+
+        orderNotes: {
+            required: true,
+        },
+
+        company: {
+            required: true,
+        },
+
+        country: {
+            required: true,
+        },
+
+        payment: {
+            required: false,
         }
+
+
     };
 
     const { state, handleOnChange, handleOnSubmit, disable } = useForm (
@@ -165,26 +229,23 @@ function CheckoutForm({total, shipping, user, products}) {
                             <div className="billing-details">
                                 <h3 className="title">Billing Details</h3>
 
-                                { !user && (
+
                                 <div className="row">
-                                    <div className="col-lg-12 col-md-12">
+                                    <div className="col-lg-6 col-md-6">
                                         <div className="form-group">
                                             <label>Country <span className="required">*</span></label>
-                                            <div className="select-box">
-                                                <select 
-                                                    className="form-control"
-                                                    name="country"
-                                                >
-                                                    <option value="5">Vietnam</option>
-                                                    <option value="1">China</option>
-                                                    <option value="2">United Kingdom</option>
-                                                    <option value="0">Germany</option>
-                                                    <option value="3">France</option>
-                                                    <option value="4">Japan</option>
-                                                </select>
-                                            </div>
+                                            <input 
+                                                type="text" 
+                                                name="country"
+                                                className="form-control" 
+                                                onChange={handleOnChange}
+                                                value={state.country.value}
+                                                placeholder={user && user.countryCode}
+                                            />
+
                                         </div>
                                     </div>
+
 
                                     <div className="col-lg-6 col-md-6">
                                         <div className="form-group">
@@ -217,7 +278,11 @@ function CheckoutForm({total, shipping, user, products}) {
                                     <div className="col-lg-12 col-md-12">
                                         <div className="form-group">
                                             <label>Company Name</label>
-                                            <input type="text" className="form-control" />
+                                            <input type="text"
+                                                   className="form-control" name="company" onChange={handleOnChange}
+                                                   placeholder={user && user.company}
+                                                   value={state.company.value}
+ />
                                         </div>
                                     </div>
 
@@ -229,6 +294,7 @@ function CheckoutForm({total, shipping, user, products}) {
                                                 name="address"
                                                 className="form-control" 
                                                 onChange={handleOnChange}
+                                                placeholder={user && user.address}
                                                 value={state.address.value}
                                             />
                                             {state.address.error && <p style={errorStyle}>{state.address.error}</p>}
@@ -243,6 +309,7 @@ function CheckoutForm({total, shipping, user, products}) {
                                                 name="city"
                                                 className="form-control" 
                                                 onChange={handleOnChange}
+                                                placeholder={user && user.city}
                                                 value={state.city.value}
                                             />
                                             {state.city.error && <p style={errorStyle}>{state.city.error}</p>}
@@ -258,6 +325,7 @@ function CheckoutForm({total, shipping, user, products}) {
                                                 name="email"
                                                 className="form-control" 
                                                 onChange={handleOnChange}
+                                                placeholder={user && user.email}
                                                 value={state.email.value}
                                             />
                                             {state.email.error && <p style={errorStyle}>{state.email.error}</p>}
@@ -272,6 +340,7 @@ function CheckoutForm({total, shipping, user, products}) {
                                                 name="phone"
                                                 className="form-control" 
                                                 onChange={handleOnChange}
+                                                placeholder={user && user.phone}
                                                 value={state.phone.value}
                                             />
                                             {state.phone.error && <p style={errorStyle}>{state.phone.error}</p>}
@@ -293,10 +362,11 @@ function CheckoutForm({total, shipping, user, products}) {
                                     </div>
 
                                 </div>
-                                )}
+
                                 <div className="col-lg-12 col-md-12">
                                     <div className="form-group">
-                                        <textarea name="notes" id="notes" cols="30" rows="6" placeholder="Order Notes" className="form-control" />
+                                        <textarea name="orderNotes" id="orderNotes" cols="30" rows="6" placeholder="Order Notes" className="form-control" onChange={handleOnChange} value={state.orderNotes.value}
+ />
                                     </div>
                                 </div>
 
@@ -311,11 +381,11 @@ function CheckoutForm({total, shipping, user, products}) {
 
                                 <div className="payment-method">
                                     <p>
-                                        <input type="radio" id="online" name="radio-group" />
+                                        <input type="radio" id="online" name="payment" onChange={handleOnChange} />
                                         <label htmlFor="online">Online</label>
                                     </p>
                                     <p>
-                                        <input type="radio" id="cash-on-delivery" name="radio-group" />
+                                        <input type="radio" id="cash-on-delivery" name="payment" onChange={handleOnChange} />
                                         <label htmlFor="cash-on-delivery">Cash on Delivery</label>
                                     </p>
                                 </div>
@@ -341,8 +411,15 @@ const mapStateToProps = (state) => {
     }
 }
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        resetCart: () => dispatch(resetCart())
+    }
+}
+
 export default connect(
-    mapStateToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(CheckoutForm)
 
 

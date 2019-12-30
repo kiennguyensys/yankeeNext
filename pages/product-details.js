@@ -25,6 +25,7 @@ class Index extends Component {
                 id,
                 title,
                 price,
+                SKU,
                 image,
                 imageHover,
                 description,

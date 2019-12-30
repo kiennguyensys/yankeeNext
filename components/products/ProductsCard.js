@@ -50,6 +50,7 @@ class ProductsCard extends PureComponent {
                     id,
                     title,
                     price,
+                    SKU,
                     image,
                     imageHover
                   }
@@ -60,7 +61,7 @@ class ProductsCard extends PureComponent {
         const url = "https://yankeesim-admin.herokuapp.com/admin/api";
         const opts = {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json"},
           body: JSON.stringify({ query })
         };
         fetch(url, opts)

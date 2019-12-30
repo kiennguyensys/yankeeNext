@@ -100,8 +100,6 @@ class ProductContent extends Component {
 
                         <ul className="product-info">
 
-                            <li><span>Availability:</span> <a href="#">In stock (7 items)</a></li>
-
                         </ul>
 
 

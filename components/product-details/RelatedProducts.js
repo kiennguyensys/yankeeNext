@@ -68,6 +68,7 @@ class RelatedProducts extends Component {
               allProducts(where: {categories_every: {slug: "`+ category.toString() +`"}}) {
                 id,
                 title,
+                SKU,
                 price,
                 image,
                 imageHover

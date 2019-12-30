@@ -94,6 +94,7 @@ class Products extends Component {
               Tab1:allProducts(where: {categories_every: {slug: "`+ categories[0] +`"}}) {
                 id,
                 title,
+                SKU,
                 price,
                 image,
                 imageHover
@@ -101,6 +102,7 @@ class Products extends Component {
               Tab2:allProducts(where: {categories_every: {slug: "`+ categories[1] +`"}}) {
                 id,
                 title,
+                SKU,
                 price,
                 image,
                 imageHover
@@ -110,6 +112,7 @@ class Products extends Component {
                 id,
                 title,
                 price,
+                SKU,
                 image,
                 imageHover
               }
