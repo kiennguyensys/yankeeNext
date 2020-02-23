@@ -128,8 +128,8 @@ class Products extends Component {
         fetch(url, opts)
           .then(res => res.json())
             .then(result => {
-                console.log(result)
-                this.setState({products: result.data})
+                if(result.data.Tab1)
+                    this.setState({products: result.data})
             })
           .catch(console.error);
     }
@@ -195,7 +195,7 @@ class Products extends Component {
                                 <div className="tab_content">
                                     <div id="tab1" className="tabs_item">
                                         <div className="row">
-                                        {this.state.display && products ? <OwlCarousel 
+                                        {(this.state.display && products )? <OwlCarousel 
                                             className="all-products-slides owl-carousel owl-theme"
                                             {...options}
                                         >
@@ -280,7 +280,7 @@ class Products extends Component {
 
                                     <div id="tab2" className="tabs_item">
                                         <div className="row">
-                                        {this.state.display && products ? <OwlCarousel 
+                                        {(this.state.display && products) ? <OwlCarousel 
                                             className="all-products-slides owl-carousel owl-theme"
                                             {...options}
                                         >

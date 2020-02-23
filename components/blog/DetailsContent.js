@@ -24,7 +24,7 @@ export class DetailsContent extends Component {
                 posted,
                 author {name},
                 tags { name },
-                image { publicUrl },
+                image,
                 brief_description
               }
               allPostComments(where: {originalPost: {slug: "`+ this.props.slug + `"}}) {
@@ -94,7 +94,7 @@ export class DetailsContent extends Component {
                         <div className="col-lg-8 col-md-12 offset-lg-2 offset-md-0">
                             <div className="blog-details">
                                 <div className="article-img">
-                                    <img src={blog.image && blog.image.publicUrl} alt="image" />
+                                    <img src={blog.image} alt="image" />
                                 </div>
 
                                 <div className="article-content">

@@ -12,7 +12,7 @@ export class BlogGrid extends Component {
                 slug,
                 body,
                 posted,
-                image { publicUrl },
+                image,
                 brief_description
               }
             }
@@ -45,7 +45,7 @@ export class BlogGrid extends Component {
                             <div className="single-blog-post">
                                 <div className="blog-image">
                                     <Link href={"/blog-details?slug=" + data.slug}>
-                                        <a><img src={data.image && data.image.publicUrl} alt="image" /></a>
+                                        <a><img src={data.image} alt="image" /></a>
                                     </Link>
 
                                 </div>

@@ -85,8 +85,8 @@ class TrendingProducts extends Component {
         fetch(url, opts)
           .then(res => res.json())
             .then(result => {
-                console.log(result)
-                this.setState({products: result.data.allProducts})
+                if(result.data.allProducts)
+                    this.setState({products: result.data.allProducts})
             })
           .catch(console.error);
     }

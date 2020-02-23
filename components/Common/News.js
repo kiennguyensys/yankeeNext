@@ -43,7 +43,7 @@ class News extends Component {
                 slug,
                 body,
                 posted,
-                image { publicUrl },
+                image,
                 brief_description
               }
             }
@@ -57,8 +57,8 @@ class News extends Component {
         fetch(url, opts)
           .then(res => res.json())
             .then(result => {
-                console.log(result)
-                this.setState({blogs: result.data.allPosts})
+                if(result.data)
+                    this.setState({blogs: result.data.allPosts})
             })
           .catch(console.error);
     }
@@ -82,7 +82,7 @@ class News extends Component {
                                         <div className="news-image">
                                             <Link href="#">
                                                 <a>
-                                                    <img src={blog.image && blog.image.publicUrl} alt="image" />
+                                                    <img src={blog.image} alt="image" />
                                                 </a>
                                             </Link>
                                         </div>
