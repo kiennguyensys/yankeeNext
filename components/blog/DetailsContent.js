@@ -86,7 +86,7 @@ export class DetailsContent extends Component {
     render() {
         const { blog } = this.state
         const { comments } = this.state
-        console.log(comments)
+
         return (
             <section className="blog-details-area ptb-60">
                 <div className="container">
@@ -94,7 +94,7 @@ export class DetailsContent extends Component {
                         <div className="col-lg-8 col-md-12 offset-lg-2 offset-md-0">
                             <div className="blog-details">
                                 <div className="article-img">
-                                    <img src={blog.image.publicUrl} alt="image" />
+                                    <img src={blog.image && blog.image.publicUrl} alt="image" />
                                 </div>
 
                                 <div className="article-content">
