@@ -70,7 +70,7 @@ class Index extends Component {
                 <section className="products-details-area pt-60">
                     <div className="container">
                         <div className="row">
-                            <ProductImage src={product.image}/>
+                            <ProductImage src={product.image} srcHover={product.imageHover && product.imageHover.split(',')}/>
                             <ProductContent product={product} reviews={reviews}/>
                             <DetailsTab product={product} reviews={reviews} user={user} />
                         </div>

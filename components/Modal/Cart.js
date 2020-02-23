@@ -84,8 +84,8 @@ class Cart extends Component {
     }
 }
 
-const mapStateToProps = (state)=>{
-    return{
+const mapStateToProps = (state) => {
+    return {
         products: state.addedItems,
         total: state.total
         //addedItems: state.addedItems

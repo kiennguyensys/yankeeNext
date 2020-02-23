@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 const OwlCarousel = dynamic(import('react-owl-carousel3'));
 
 const options = {
-    loop: true,
+    loop: false,
     nav: false,
     dots: true,
     autoplayHoverPause: true,
@@ -43,7 +43,7 @@ class News extends Component {
                 slug,
                 body,
                 posted,
-                image,
+                image { publicUrl },
                 brief_description
               }
             }
@@ -72,7 +72,7 @@ class News extends Component {
                     </div>
 
                     <div className="row">
-                        {this.state.display ? <OwlCarousel 
+                        {(this.state.display && this.state.blogs.length)? <OwlCarousel 
                             className="news-slides owl-carousel owl-theme"
                             {...options}
                         >
@@ -82,7 +82,7 @@ class News extends Component {
                                         <div className="news-image">
                                             <Link href="#">
                                                 <a>
-                                                    <img src={blog.image} alt="image" />
+                                                    <img src={blog.image && blog.image.publicUrl} alt="image" />
                                                 </a>
                                             </Link>
                                         </div>

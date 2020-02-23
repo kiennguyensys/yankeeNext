@@ -123,14 +123,14 @@ class RelatedProducts extends Component {
             <React.Fragment>
                 <ReactTooltip />
                 <ToastContainer transition={Slide} />
-                <div class="related-products-area">
-                    <div class="container">
-                        <div class="section-title">
+                <div className="related-products-area">
+                    <div className="container">
+                        <div className="section-title">
                             <h2>Related Products</h2>
                         </div>
 
-                        <div class="row">
-                            {this.state.display ? <OwlCarousel 
+                        <div className="row">
+                            {(this.state.display && products.length) ? <OwlCarousel 
                                 className="trending-products-slides-two owl-carousel owl-theme"
                                 {...options}
                             >

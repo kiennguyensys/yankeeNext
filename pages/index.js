@@ -26,10 +26,9 @@ class Index extends Component {
 
                 <OfferArea />
 
-                <Products categories={["sim-mi-gia-re", "sim-mi-canada", "sim-chau-au"]}/>
+                <Products categories={["sim-mi-gia-re", "sim-mi-canada", "sim-chau-au-chau-uc"]}/>
 
                 <ProductRow category="sim-chau-a" title="Sim Châu Á"/>
-                <ProductRow category="sim-chau-uc" title="Sim Châu Úc"/>
 
                 <Facility />
                 <Testimonials />

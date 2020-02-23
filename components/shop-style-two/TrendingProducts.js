@@ -118,7 +118,7 @@ class TrendingProducts extends Component {
                     </div>
 
                     <div className="row">
-                    {this.state.display ? <OwlCarousel 
+                    {(this.state.display && products.length) ? <OwlCarousel 
                         className="trending-products-slides owl-carousel owl-theme"
                         {...options}
                     >

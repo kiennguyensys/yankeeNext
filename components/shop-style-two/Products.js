@@ -185,7 +185,7 @@ class Products extends Component {
                                         className="current"
                                     >
                                         <a href="#">
-                                            <span className="dot"></span> Sim Châu Âu
+                                            <span className="dot"></span> Sim Châu Âu Châu Úc
                                         </a>
                                     </li>
                                 </ul>
@@ -195,7 +195,7 @@ class Products extends Component {
                                 <div className="tab_content">
                                     <div id="tab1" className="tabs_item">
                                         <div className="row">
-                                        {this.state.display ? <OwlCarousel 
+                                        {this.state.display && products ? <OwlCarousel 
                                             className="all-products-slides owl-carousel owl-theme"
                                             {...options}
                                         >
@@ -280,7 +280,7 @@ class Products extends Component {
 
                                     <div id="tab2" className="tabs_item">
                                         <div className="row">
-                                        {this.state.display ? <OwlCarousel 
+                                        {this.state.display && products ? <OwlCarousel 
                                             className="all-products-slides owl-carousel owl-theme"
                                             {...options}
                                         >
@@ -365,7 +365,7 @@ class Products extends Component {
 
                                     <div id="tab3" className="tabs_item">
                                         <div className="row">
-                                        {this.state.display ? <OwlCarousel 
+                                        {(this.state.display && products) ? <OwlCarousel 
                                             className="all-products-slides owl-carousel owl-theme"
                                             {...options}
                                         >

@@ -34,7 +34,12 @@ class Banner extends Component {
                 className="home-slides owl-carousel owl-theme"
                 {...options}
             >
-                <div className="main-banner item-bg2">
+                <div className="main-banner">
+                    <img src={require("../../images/main-banner2.png")} style={{width: '100%', resize: 'contain'}} />
+                </div>
+
+                <div className="main-banner">
+                    <img src={require("../../images/main-banner1.png")} style={{width: '100%', resize: 'contain'}} />
                     <div className="d-table">
                         <div className="d-table-cell">
                             <div className="container">
@@ -49,22 +54,8 @@ class Banner extends Component {
                     </div>
                 </div>
 
-                <div className="main-banner item-bg1">
-                    <div className="d-table">
-                        <div className="d-table-cell">
-                            <div className="container">
-                                <VisibilitySensor>
-                                    {({ isVisible }) => (
-                                        <div className="main-banner-content">
-                                        </div>
-                                    )}
-                                </VisibilitySensor>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="main-banner item-bg3">
+                <div className="main-banner">
+                    <img src={require("../../images/main-banner3.jpg")} style={{width: '100%', resize: 'contain'}} />
                     <div className="d-table">
                         <div className="d-table-cell">
                             <div className="container">

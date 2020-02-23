@@ -1442,28 +1442,11 @@ Modal CSS
 Main Banner Area CSS
 =================================================*/
 .main-banner {
-  height: 400px;
-  position: relative;
   z-index: 1;
   background-color: #f1f1f1;
-  background-size: cover;
   background-repeat: no-repeat;
-}
-
-.main-banner.item-bg1 {
-  background-image: url(../../images/main-banner1.png);
-}
-
-.main-banner.item-bg2 {
-  background-image: url(../../images/main-banner2.png);
-}
-
-.main-banner.item-bg3 {
-  background-image: url(../../images/main-banner3.jpg);
-}
-
-.main-banner.item-bg4 {
-  background-image: url(../../images/main-banner4.jpg);
+  background-position: center center;
+  background-size: contain;
 }
 
 .main-banner-content {
