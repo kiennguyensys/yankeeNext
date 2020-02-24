@@ -5,6 +5,7 @@ import Navbar from '../components/Layout/Navbar';
 import Footer from '../components/Layout/Footer';
 import Facility from '../components/Common/Facility';
 import Breadcrumb from '../components/Common/Breadcrumb';
+import { apiUrl } from '../utils/API';
 
 class Index extends Component {
     constructor(props) {
@@ -42,14 +43,12 @@ class Index extends Component {
                     }
                 `;
 
-
-            const url = "https://yankeesim-admin.herokuapp.com/admin/api";
             const opts = {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ query })
             };
-            fetch(url, opts)
+            fetch(apiUrl, opts)
               .then(res => res.json())
                 .then(result => {
                     console.log(result)
@@ -80,13 +79,12 @@ class Index extends Component {
               }
         `;
 
-        const url = "https://yankeesim-admin.herokuapp.com/admin/api";
         const opts = {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ query:mutation })
         };
-        fetch(url, opts)
+        fetch(apiUrl, opts)
           .then(res => res.json())
             .then(result => {
                 if(result.data.updateUser) {

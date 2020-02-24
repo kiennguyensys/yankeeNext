@@ -22,6 +22,7 @@ class Index extends Component {
             <React.Fragment>
                 <Navbar />
                 <Banner />
+
                 <Feature />
 
                 <OfferArea />

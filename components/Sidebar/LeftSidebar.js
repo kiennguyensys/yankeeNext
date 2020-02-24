@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
+import { apiUrl } from '../../utils/API.js';
 
 class LeftSidebar extends Component {
     state = {
@@ -23,13 +24,13 @@ class LeftSidebar extends Component {
               }
             }
         `;
-        const url = "https://yankeesim-admin.herokuapp.com/admin/api";
+
         const opts = {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ query })
         };
-        fetch(url, opts)
+        fetch(apiUrl, opts)
           .then(res => res.json())
             .then(result => {
                 console.log(result)

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
+import { apiUrl } from '../../utils/API.js';
 const OwlCarousel = dynamic(import('react-owl-carousel3'));
 
 const options = {
@@ -48,13 +49,12 @@ class News extends Component {
               }
             }
         `;
-        const url = "https://yankeesim-admin.herokuapp.com/admin/api";
         const opts = {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ query })
         };
-        fetch(url, opts)
+        fetch(apiUrl, opts)
           .then(res => res.json())
             .then(result => {
                 if(result.data)

@@ -1443,6 +1443,7 @@ Main Banner Area CSS
 =================================================*/
 .main-banner {
   z-index: 1;
+  width: 100%;
   background-color: #f1f1f1;
   background-repeat: no-repeat;
   background-position: center center;
@@ -3057,10 +3058,8 @@ Testimonials Area CSS
 .testimonials-area {
   position: relative;
   z-index: 1;
-  display: table;
-  width: 100%;
   background-size: cover;
-  background-position: center top;
+  background-position: center center;
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../../images/testimonials-bg.png);
 }
 

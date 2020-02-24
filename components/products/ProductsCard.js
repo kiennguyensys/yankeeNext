@@ -5,6 +5,7 @@ import Link from 'next/link';
 import ReactTooltip from 'react-tooltip'
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import QuickView from '../Modal/QuickView';
+import { apiUrl } from '../../utils/API.js';
 
 class ProductsCard extends PureComponent {
     state = {
@@ -58,13 +59,13 @@ class ProductsCard extends PureComponent {
             `;
 
 
-        const url = "https://yankeesim-admin.herokuapp.com/admin/api";
+
         const opts = {
           method: "POST",
           headers: { "Content-Type": "application/json"},
           body: JSON.stringify({ query })
         };
-        fetch(url, opts)
+        fetch(apiUrl, opts)
           .then(res => res.json())
             .then(result => {
                 console.log(result)

@@ -4,6 +4,7 @@ import Footer from '../components/Layout/Footer';
 import Facility from '../components/Common/Facility';
 import Breadcrumb from '../components/Common/Breadcrumb';
 import Router from 'next/router';
+import { apiUrl } from '../utils/API.js';
 
 class Index extends Component {
     constructor (props) {
@@ -30,13 +31,12 @@ class Index extends Component {
             }
         `;
 
-        const url = "https://yankeesim-admin.herokuapp.com/admin/api";
         const opts = {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ query:mutation })
         };
-        fetch(url, opts)
+        fetch(apiUrl, opts)
           .then(res => res.json())
             .then(result => {
                 if(result.data.createContactForm) {

@@ -13,9 +13,8 @@ import { initStore } from '../store/reducers/cartReducer.js';
 import { DefaultSeo } from 'next-seo';
 import GoTop from '../components/Shared/GoTop';
 import ReactGA from 'react-ga';
-import { ApolloProvider } from '@apollo/react-hooks';
+import { apiUrl } from '../utils/API';
 
-import withApollo from '../utils/apollo-client';
 
 
 export default withRedux(initStore)(
@@ -40,7 +39,7 @@ export default withRedux(initStore)(
                       }
                     }
                 `;
-                const url = "https://yankeesim-admin.herokuapp.com/admin/api";
+
                 const opts = {
                   method: "POST",
                   headers: {
@@ -50,7 +49,7 @@ export default withRedux(initStore)(
                   body: JSON.stringify({ query })
                 };
 
-                fetch(url, opts)
+                fetch(apiUrl, opts)
                   .then(res => res.json())
                     .then(result => {
                         if (!result.data.authenticatedUser) {
@@ -77,7 +76,6 @@ export default withRedux(initStore)(
                         openGraph={{
                             type: 'website',
                             locale: 'en_IE',
-                            url: 'https://nextland-react.envytheme.com/',
                             site_name: 'YankeeSim - eCommerce',
                         }}
                     />

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Link from 'next/link';
+import { apiUrl } from '../../utils/API.js';
 
 export class BlogGrid extends Component {
     state = { blogs: [] }
@@ -17,13 +18,13 @@ export class BlogGrid extends Component {
               }
             }
         `;
-        const url = "https://yankeesim-admin.herokuapp.com/admin/api";
+
         const opts = {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ query })
         };
-        fetch(url, opts)
+        fetch(apiUrl, opts)
           .then(res => res.json())
             .then(result => {
                 console.log(result)

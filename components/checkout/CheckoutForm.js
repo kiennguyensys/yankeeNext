@@ -5,6 +5,7 @@ import OrderSummary from './OrderSummary';
 import Payment from '../payments/Payment';
 import useForm from './userForm';
 import { resetCart } from '../../store/actions/cartActions.js';
+import { apiUrl } from '../../utils/API.js';
 
 function CheckoutForm({total, shipping, user, products, resetCart}) {
 
@@ -73,13 +74,13 @@ function CheckoutForm({total, shipping, user, products, resetCart}) {
         }
 
 
-        const url = "https://yankeesim-admin.herokuapp.com/admin/api";
+
         const opts = {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ query:mutation })
         };
-        fetch(url, opts)
+        fetch(apiUrl, opts)
           .then(res => res.json())
             .then(result => {
                 if(result.data.createOrder) {
@@ -102,14 +103,12 @@ function CheckoutForm({total, shipping, user, products, resetCart}) {
                 }
             `;
 
-
-        const url = "https://yankeesim-admin.herokuapp.com/admin/api";
         const opts = {
           method: "POST",
           headers: { "Content-Type": "application/json"},
           body: JSON.stringify({ query })
         };
-        fetch(url, opts)
+        fetch(apiUrl, opts)
           .then(res => res.json())
             .then(result => {
                 const orderNumber = parseInt(result.data._allOrdersMeta.count) + 1
